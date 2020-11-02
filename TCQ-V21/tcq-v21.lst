@@ -1,0 +1,3780 @@
+
+
+HI-TECH Software PIC PRO Macro Assembler V9.83 build 10920 
+                                                                                               Tue Sep 22 19:59:11 2020
+
+HI-TECH Software Omniscient Code Generator (PRO mode) build 10920
+     1                           	processor	16F685
+     2                           	opt	pw 120
+     3                           	opt	pm
+     4                           	psect	idataBANK0,global,class=CODE,delta=2
+     5                           	psect	cinit,global,class=CODE,delta=2
+     6                           	psect	bssCOMMON,global,class=COMMON,space=1,delta=1
+     7                           	psect	bssBANK0,global,class=BANK0,space=1,delta=1
+     8                           	psect	dataBANK0,global,class=BANK0,space=1,delta=1
+     9                           	psect	clrtext,global,class=CODE,delta=2
+    10                           	psect	cstackCOMMON,global,class=COMMON,space=1,delta=1
+    11                           	psect	cstackBANK0,global,class=BANK0,space=1,delta=1
+    12                           	psect	maintext,global,class=CODE,delta=2
+    13                           	psect	text318,local,class=CODE,delta=2
+    14                           	psect	text319,local,class=CODE,delta=2
+    15                           	psect	text320,local,class=CODE,delta=2
+    16                           	psect	text321,local,class=CODE,delta=2
+    17                           	psect	text322,local,class=CODE,delta=2
+    18                           	psect	text323,local,class=CODE,delta=2
+    19                           	psect	text324,local,class=CODE,delta=2
+    20                           	psect	text325,local,class=CODE,delta=2
+    21                           	psect	text326,local,class=CODE,delta=2
+    22                           	psect	text327,local,class=CODE,delta=2
+    23                           	psect	text328,local,class=CODE,delta=2
+    24                           	psect	text329,local,class=CODE,delta=2
+    25                           	psect	pa_nodes,global,class=CODE,delta=2
+    26                           	dabs	1,0x19D,1
+    27                           	dabs	1,0x19E,1
+    28                           	dabs	1,0x19E,1
+    29                           	dabs	1,0x19E,1
+    30                           	dabs	1,0x18C,1
+    31                           	dabs	1,0x19E,1
+    32                           	dabs	1,0x19E,1
+    33                           	dabs	1,0x19E,1
+    34                           	dabs	1,0x19E,1
+    35                           	dabs	1,0x19D,1
+    36                           	dabs	1,0x19D,1
+    37                           	dabs	1,0x19D,1
+    38                           	dabs	1,0x19D,1
+    39                           	dabs	1,0x19D,1
+    40                           	dabs	1,0x18C,1
+    41                           	dabs	1,0x7E,2
+    42  000A                     
+    43                           	psect	idataBANK0
+    44  0000                     __pidataBANK0:	
+    45  019D                     _PSTRCON	set	413	;_PSTRCON
+    46  019E                     _SRCON	set	414	;_SRCON
+    47  0CF5                     _C1SEN	set	3317	;_C1SEN
+    48  0CF4                     _C2REN	set	3316	;_C2REN
+    49  0C67                     _EEPGD	set	3175	;_EEPGD
+    50  0CF2                     _PULSR	set	3314	;_PULSR
+    51  0CF3                     _PULSS	set	3315	;_PULSS
+    52  0CF6                     _SR0	set	3318	;_SR0
+    53  0CF7                     _SR1	set	3319	;_SR1
+    54  0CE8                     _STRA	set	3304	;_STRA
+    55  0CE9                     _STRB	set	3305	;_STRB
+    56  0CEA                     _STRC	set	3306	;_STRC
+    57  0CEB                     _STRD	set	3307	;_STRD
+    58  0CEC                     _STRSYNC	set	3308	;_STRSYNC
+    59  0C62                     _WREN	set	3170	;_WREN
+    60  001F                     _ADCON0	set	31
+    61  001E                     _ADRESH	set	30
+    62  0019                     _CMCON0	set	25
+    63  000B                     _INTCON	set	11
+    64  001B                     _MSCKCON	set	27
+    65  0005                     _PORTA	set	5
+    66  0007                     _PORTC	set	7
+    67  00F9                     _GO_DONE	set	249
+    68  0028                     _PA0	set	40
+    69  0029                     _PA1	set	41
+    70  002E                     _PA6	set	46
+    71  0038                     _PC0	set	56
+    72  003B                     _PC3	set	59
+    73  009F                     _ADCON1	set	159
+    74  009E                     _ADRESL	set	158
+    75  0091                     _ANSEL	set	145
+    76  0081                     _OPTION	set	129
+    77  008F                     _OSCCON	set	143
+    78  0085                     _TRISA	set	133
+    79  0087                     _TRISC	set	135
+    80  0095                     _WPUA	set	149
+    81  0088                     _WPUC	set	136
+    82  0428                     _TRISA0	set	1064
+    83  043B                     _TRISC3	set	1083
+    84                           
+    85                           	psect	cinit
+    86  00C5                     start_initialization:	
+    87  00C5  3020               	movlw	low __pbssBANK0
+    88                           
+    89                           ; Clear objects allocated to COMMON
+    90  00C6  01FD               	clrf	__pbssCOMMON& (0+127)
+    91                           
+    92                           ; Clear objects allocated to BANK0
+    93  00C7  1383               	bcf	3,7	;select IRP bank0
+    94  00C8  0084               	movwf	4
+    95  00C9  3064               	movlw	low (__pbssBANK0+68)
+    96  00CA  20A9               	fcall	clear_ram
+    97                           
+    98                           ;initializer for _SUM0_num
+    99  00CB  3010               	movlw	16
+   100  00CC  00E8               	movwf	__pdataBANK0& (0+127)
+   101                           
+   102                           ;initializer for _SUM1_num
+   103  00CD  3080               	movlw	128
+   104  00CE  00E9               	movwf	(__pdataBANK0+1)& (0+127)
+   105  00CF                     end_of_initialization:	
+   106                           ;End of C runtime variable initialization code
+   107                           
+   108  00CF  0183               	clrf	3
+   109  00D0  2AC5               	ljmp	_main	;jump to C main() function
+   110                           
+   111                           	psect	bssCOMMON
+   112  007D                     __pbssCOMMON:	
+   113  007D                     _SUM1_counter:	
+   114  007D                     	ds	1
+   115                           
+   116                           	psect	bssBANK0
+   117  0020                     __pbssBANK0:	
+   118  0020                     _ALL_SUM1:	
+   119  0020                     	ds	4
+   120  0024                     _MAX_DELTA:	
+   121  0024                     	ds	4
+   122  0028                     _NOISE_PIR:	
+   123  0028                     	ds	4
+   124  002C                     _PIR_AD:	
+   125  002C                     	ds	4
+   126  0030                     _SUM:	
+   127  0030                     	ds	4
+   128  0034                     _SUM0:	
+   129  0034                     	ds	4
+   130  0038                     _SUM1:	
+   131  0038                     	ds	4
+   132  003C                     _SUM10:	
+   133  003C                     	ds	4
+   134  0040                     _SUM3:	
+   135  0040                     	ds	4
+   136  0044                     _TH:	
+   137  0044                     	ds	4
+   138  0048                     _average1:	
+   139  0048                     	ds	4
+   140  004C                     _times1:	
+   141  004C                     	ds	4
+   142  0050                     _times2:	
+   143  0050                     	ds	4
+   144  0054                     _LIGHT:	
+   145  0054                     	ds	2
+   146  0056                     _k:	
+   147  0056                     	ds	2
+   148  0058                     _start_times:	
+   149  0058                     	ds	2
+   150  005A                     _t:	
+   151  005A                     	ds	2
+   152  005C                     _times:	
+   153  005C                     	ds	2
+   154  005E                     _calc_average_times:	
+   155  005E                     	ds	1
+   156  005F                     _check_light_times:	
+   157  005F                     	ds	1
+   158  0060                     _i:	
+   159  0060                     	ds	1
+   160  0061                     _light_ad:	
+   161  0061                     	ds	1
+   162  0062                     _light_ad0:	
+   163  0062                     	ds	1
+   164  0063                     _stop_times:	
+   165  0063                     	ds	1
+   166                           
+   167                           	psect	dataBANK0
+   168  0068                     __pdataBANK0:	
+   169  0068                     _SUM0_num:	
+   170  0068                     	ds	1
+   171  0069                     _SUM1_num:	
+   172  0069                     	ds	1
+   173                           
+   174                           	psect	clrtext
+   175  00A9                     clear_ram:	
+   176                           ;	Called with FSR containing the base address, and
+   177                           ;	W with the last address+1
+   178                           
+   179  00A9  0064               	clrwdt	;clear the watchdog before getting into this loop
+   180  00AA                     clrloop:	
+   181  00AA  0180               	clrf	0	;clear RAM location pointed to by FSR
+   182  00AB  0A84               	incf	4,f	;increment pointer
+   183  00AC  0604               	xorwf	4,w	;XOR with final address
+   184  00AD  1903               	btfsc	3,2	;have we reached the end yet?
+   185  00AE  3400               	retlw	0	;all done for this memory range, return
+   186  00AF  0604               	xorwf	4,w	;XOR again to restore value
+   187  00B0  28AA               	goto	clrloop	;do the next byte
+   188                           
+   189                           	psect	cstackCOMMON
+   190  0070                     __pcstackCOMMON:	
+   191  0070                     ?_POWER_INITIAL:	
+   192  0070                     ??_POWER_INITIAL:	
+   193                           ; 0 bytes @ 0x0
+   194                           
+   195  0070                     ?_DelayUs:	
+   196                           ; 0 bytes @ 0x0
+   197                           
+   198  0070                     ??_DelayUs:	
+   199                           ; 0 bytes @ 0x0
+   200                           
+   201  0070                     ?_delay_sub:	
+   202                           ; 0 bytes @ 0x0
+   203                           
+   204  0070                     ?_CS1237_Power_Down:	
+   205                           ; 0 bytes @ 0x0
+   206                           
+   207  0070                     ?_ADC_INITIAL:	
+   208                           ; 0 bytes @ 0x0
+   209                           
+   210  0070                     ??_ADC_INITIAL:	
+   211                           ; 0 bytes @ 0x0
+   212                           
+   213  0070                     ?_send_data:	
+   214                           ; 0 bytes @ 0x0
+   215                           
+   216  0070                     ?_Con_CS1237:	
+   217                           ; 0 bytes @ 0x0
+   218                           
+   219  0070                     ?_main:	
+   220                           ; 0 bytes @ 0x0
+   221                           
+   222  0070                     ?_read_ad:	
+   223                           ; 0 bytes @ 0x0
+   224                           
+   225  0070                     ?_Read_CON:	
+   226                           ; 1 bytes @ 0x0
+   227                           
+   228  0070                     ?___lldiv:	
+   229                           ; 1 bytes @ 0x0
+   230                           
+   231  0070                     DelayUs@Time:	
+   232                           ; 4 bytes @ 0x0
+   233                           
+   234  0070                     ___lldiv@divisor:	
+   235                           ; 1 bytes @ 0x0
+   236                           
+   237                           
+   238                           ; 4 bytes @ 0x0
+   239  0070                     	ds	1
+   240  0071                     DelayUs@a:	
+   241                           
+   242                           ; 1 bytes @ 0x1
+   243  0071                     	ds	1
+   244  0072                     ??_delay_sub:	
+   245  0072                     ??_send_data:	
+   246                           ; 0 bytes @ 0x2
+   247                           
+   248  0072                     ??_read_ad:	
+   249                           ; 0 bytes @ 0x2
+   250                           
+   251  0072                     ??_Con_CS1237:	
+   252                           ; 0 bytes @ 0x2
+   253                           
+   254  0072                     ??_Read_CON:	
+   255                           ; 0 bytes @ 0x2
+   256                           
+   257  0072                     ?_Read_CS1237:	
+   258                           ; 0 bytes @ 0x2
+   259                           
+   260  0072                     delay_sub@n:	
+   261                           ; 4 bytes @ 0x2
+   262                           
+   263  0072                     send_data@d:	
+   264                           ; 1 bytes @ 0x2
+   265                           
+   266  0072                     Con_CS1237@count_i:	
+   267                           ; 1 bytes @ 0x2
+   268                           
+   269  0072                     Read_CON@count_i:	
+   270                           ; 2 bytes @ 0x2
+   271                           
+   272                           
+   273                           ; 2 bytes @ 0x2
+   274  0072                     	ds	1
+   275  0073                     delay_sub@i:	
+   276  0073                     send_data@i:	
+   277                           ; 1 bytes @ 0x3
+   278                           
+   279                           
+   280                           ; 1 bytes @ 0x3
+   281  0073                     	ds	1
+   282  0074                     ??_CS1237_Power_Down:	
+   283  0074                     read_ad@ch:	
+   284                           ; 0 bytes @ 0x4
+   285                           
+   286  0074                     Con_CS1237@dat:	
+   287                           ; 1 bytes @ 0x4
+   288                           
+   289  0074                     Read_CON@dat:	
+   290                           ; 1 bytes @ 0x4
+   291                           
+   292  0074                     ___lldiv@dividend:	
+   293                           ; 1 bytes @ 0x4
+   294                           
+   295                           
+   296                           ; 4 bytes @ 0x4
+   297  0074                     	ds	1
+   298  0075                     Con_CS1237@i:	
+   299  0075                     Read_CON@i:	
+   300                           ; 1 bytes @ 0x5
+   301                           
+   302  0075                     read_ad@ad_sum:	
+   303                           ; 1 bytes @ 0x5
+   304                           
+   305                           
+   306                           ; 2 bytes @ 0x5
+   307  0075                     	ds	1
+   308  0076                     ??_Read_CS1237:	
+   309  0076                     Read_CS1237@dat:	
+   310                           ; 0 bytes @ 0x6
+   311                           
+   312                           
+   313                           ; 4 bytes @ 0x6
+   314  0076                     	ds	1
+   315  0077                     read_ad@i:	
+   316                           
+   317                           ; 1 bytes @ 0x7
+   318  0077                     	ds	1
+   319  0078                     ??___lldiv:	
+   320  0078                     ___lldiv@quotient:	
+   321                           ; 0 bytes @ 0x8
+   322                           
+   323                           
+   324                           ; 4 bytes @ 0x8
+   325  0078                     	ds	2
+   326  007A                     Read_CS1237@i:	
+   327                           
+   328                           ; 1 bytes @ 0xA
+   329  007A                     	ds	2
+   330  007C                     ___lldiv@counter:	
+   331                           
+   332                           ; 1 bytes @ 0xC
+   333  007C                     	ds	1
+   334                           
+   335                           	psect	cstackBANK0
+   336  0064                     __pcstackBANK0:	
+   337  0064                     ??_main:	
+   338                           
+   339                           ; 0 bytes @ 0x0
+   340  0064                     	ds	4
+   341                           
+   342                           	psect	maintext
+   343  02C5                     __pmaintext:	
+   344 ;;Data sizes: Strings 0, constant 0, data 2, bss 69, persistent 0 stack 0
+   345 ;;Auto spaces:   Size  Autos    Used
+   346 ;; COMMON          14     13      14
+   347 ;; BANK0           80      4      74
+   348 ;; BANK1           32      0       0
+   349 ;;
+   350 ;; Pointer list with targets:
+   351 ;; ?___lldiv	unsigned long  size(1) Largest target is 0
+   352 ;;
+   353 ;; ?_Read_CS1237	long  size(1) Largest target is 0
+   354 ;;
+   355 ;;
+   356 ;; Critical Paths under _main in COMMON
+   357 ;;
+   358 ;;   _main->___lldiv
+   359 ;;   _CS1237_Power_Down->_delay_sub
+   360 ;;   _Read_CS1237->_DelayUs
+   361 ;;   _Read_CON->_DelayUs
+   362 ;;   _Con_CS1237->_DelayUs
+   363 ;;   _read_ad->_DelayUs
+   364 ;;   _send_data->_DelayUs
+   365 ;;   _delay_sub->_DelayUs
+   366 ;;
+   367 ;; Critical Paths under _main in BANK0
+   368 ;;
+   369 ;;   None.
+   370 ;;
+   371 ;; Critical Paths under _main in BANK1
+   372 ;;
+   373 ;;   None.
+   374 ;;
+   375 ;;Main: autosize = 0, tempsize = 4, incstack = 0, save=0
+   376 ;;
+   377 ;;
+   378 ;;Call Graph Tables:
+   379 ;;
+   380 ;; ---------------------------------------------------------------------------------
+   381 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   382 ;; ---------------------------------------------------------------------------------
+   383 ;; (0) _main                                                 6     6      0    1297
+   384 ;;                                              0 BANK0      4     4      0
+   385 ;;                      _POWER_INITIAL
+   386 ;;                        _ADC_INITIAL
+   387 ;;                  _CS1237_Power_Down
+   388 ;;                         _Con_CS1237
+   389 ;;                           _Read_CON
+   390 ;;                          _delay_sub
+   391 ;;                            _read_ad
+   392 ;;                            _DelayUs
+   393 ;;                        _Read_CS1237
+   394 ;;                          _send_data
+   395 ;;                            ___lldiv
+   396 ;; ---------------------------------------------------------------------------------
+   397 ;; (1) _CS1237_Power_Down                                    0     0      0     137
+   398 ;;                          _delay_sub
+   399 ;; ---------------------------------------------------------------------------------
+   400 ;; (1) _Read_CS1237                                         10     6      4     163
+   401 ;;                                              2 COMMON     9     5      4
+   402 ;;                            _DelayUs
+   403 ;; ---------------------------------------------------------------------------------
+   404 ;; (1) _Read_CON                                             6     6      0     188
+   405 ;;                                              2 COMMON     4     4      0
+   406 ;;                            _DelayUs
+   407 ;; ---------------------------------------------------------------------------------
+   408 ;; (1) _Con_CS1237                                           4     4      0     186
+   409 ;;                                              2 COMMON     4     4      0
+   410 ;;                            _DelayUs
+   411 ;; ---------------------------------------------------------------------------------
+   412 ;; (1) _read_ad                                              6     6      0     163
+   413 ;;                                              2 COMMON     6     6      0
+   414 ;;                            _DelayUs
+   415 ;; ---------------------------------------------------------------------------------
+   416 ;; (1) _send_data                                            2     2      0     115
+   417 ;;                                              2 COMMON     2     2      0
+   418 ;;                            _DelayUs
+   419 ;; ---------------------------------------------------------------------------------
+   420 ;; (1) _delay_sub                                            2     2      0     137
+   421 ;;                                              2 COMMON     2     2      0
+   422 ;;                            _DelayUs
+   423 ;; ---------------------------------------------------------------------------------
+   424 ;; (1) ___lldiv                                             13     5      8     162
+   425 ;;                                              0 COMMON    13     5      8
+   426 ;; ---------------------------------------------------------------------------------
+   427 ;; (1) _ADC_INITIAL                                          0     0      0       0
+   428 ;; ---------------------------------------------------------------------------------
+   429 ;; (2) _DelayUs                                              2     2      0      46
+   430 ;;                                              0 COMMON     2     2      0
+   431 ;; ---------------------------------------------------------------------------------
+   432 ;; (1) _POWER_INITIAL                                        0     0      0       0
+   433 ;; ---------------------------------------------------------------------------------
+   434 ;; Estimated maximum stack depth 2
+   435 ;; ---------------------------------------------------------------------------------
+   436 ;; Call Graph Graphs:
+   437 ;; _main (ROOT)
+   438 ;;   _POWER_INITIAL
+   439 ;;   _ADC_INITIAL
+   440 ;;   _CS1237_Power_Down
+   441 ;;     _delay_sub
+   442 ;;       _DelayUs
+   443 ;;   _Con_CS1237
+   444 ;;     _DelayUs
+   445 ;;   _Read_CON
+   446 ;;     _DelayUs
+   447 ;;   _delay_sub
+   448 ;;     _DelayUs
+   449 ;;   _read_ad
+   450 ;;     _DelayUs
+   451 ;;   _DelayUs
+   452 ;;   _Read_CS1237
+   453 ;;     _DelayUs
+   454 ;;   _send_data
+   455 ;;     _DelayUs
+   456 ;;   ___lldiv
+   457 ;;
+   458 ;; Address spaces:
+   459 ;;Name               Size   Autos  Total    Cost      Usage
+   460 ;;SFR2                 0      0       0       5        0.0%
+   461 ;;BITSFR2              0      0       0       5        0.0%
+   462 ;;SFR1                 0      0       0       2        0.0%
+   463 ;;BITSFR1              0      0       0       2        0.0%
+   464 ;;BANK1               20      0       0       6        0.0%
+   465 ;;BITBANK1            20      0       0       5        0.0%
+   466 ;;CODE                 0      0       0       0        0.0%
+   467 ;;DATA                 0      0      5B       8        0.0%
+   468 ;;ABS                  0      0      58       7        0.0%
+   469 ;;NULL                 0      0       0       0        0.0%
+   470 ;;STACK                0      0       3       2        0.0%
+   471 ;;BANK0               50      4      4A       4       92.5%
+   472 ;;BITBANK0            50      0       0       3        0.0%
+   473 ;;SFR0                 0      0       0       1        0.0%
+   474 ;;BITSFR0              0      0       0       1        0.0%
+   475 ;;COMMON               E      D       E       1      100.0%
+   476 ;;BITCOMMON            E      0       0       0        0.0%
+   477 ;;EEDATA             100      0       0       0        0.0%
+   478                           
+   479                           
+   480 ;; *************** function _main *****************
+   481 ;; Defined at:
+   482 ;;		line 546 in file "TCQ-V21.C"
+   483 ;; Parameters:    Size  Location     Type
+   484 ;;		None
+   485 ;; Auto vars:     Size  Location     Type
+   486 ;;  m               2    0        unsigned int 
+   487 ;; Return value:  Size  Location     Type
+   488 ;;		None               void
+   489 ;; Registers used:
+   490 ;;		wreg, status,2, status,0, btemp+1, pclath, cstack
+   491 ;; Tracked objects:
+   492 ;;		On entry : 17F/0
+   493 ;;		On exit  : 60/20
+   494 ;;		Unchanged: FFE00/0
+   495 ;; Data sizes:     COMMON   BANK0   BANK1
+   496 ;;      Params:         0       0       0
+   497 ;;      Locals:         0       0       0
+   498 ;;      Temps:          0       4       0
+   499 ;;      Totals:         0       4       0
+   500 ;;Total ram usage:        4 bytes
+   501 ;; Hardware stack levels required when called:    3
+   502 ;; This function calls:
+   503 ;;		_POWER_INITIAL
+   504 ;;		_ADC_INITIAL
+   505 ;;		_CS1237_Power_Down
+   506 ;;		_Con_CS1237
+   507 ;;		_Read_CON
+   508 ;;		_delay_sub
+   509 ;;		_read_ad
+   510 ;;		_DelayUs
+   511 ;;		_Read_CS1237
+   512 ;;		_send_data
+   513 ;;		___lldiv
+   514 ;; This function is called by:
+   515 ;;		Startup code after reset
+   516 ;; This function uses a non-reentrant model
+   517 ;;
+   518  02C5                     _main:	
+   519                           
+   520                           ;TCQ-V21.C: 548: POWER_INITIAL();
+   521                           
+   522                           ; Regs used in _main: [wreg+status,2+status,0+btemp+1+pclath+cstack]
+   523  02C5  20E1               	fcall	_POWER_INITIAL
+   524                           
+   525                           ;TCQ-V21.C: 551: ADC_INITIAL();
+   526  02C6  20B1               	fcall	_ADC_INITIAL
+   527                           
+   528                           ;TCQ-V21.C: 554: CS1237_Power_Down();
+   529  02C7  20BB               	fcall	_CS1237_Power_Down
+   530                           
+   531                           ;TCQ-V21.C: 555: Con_CS1237();
+   532  02C8  21CD               	fcall	_Con_CS1237
+   533                           
+   534                           ;TCQ-V21.C: 558: MIN_PIR=0XFF;
+   535  02C9  2247               	fcall	_Read_CON
+   536                           
+   537                           ;TCQ-V21.C: 608: wave=0;
+   538  02CA  300A               	movlw	10
+   539  02CB  20D1               	fcall	_delay_sub
+   540  02CC  3006               	movlw	6
+   541                           
+   542                           ;TCQ-V21.C: 609: PC0=1;
+   543  02CD  1283               	bcf	3,5	;RP0=0, select bank0
+   544  02CE  1303               	bcf	3,6	;RP1=0, select bank0
+   545  02CF  1407               	bsf	7,0
+   546                           
+   547                           ;TCQ-V21.C: 612: delay_sub(6);
+   548  02D0  20D1               	fcall	_delay_sub
+   549                           
+   550                           ;TCQ-V21.C: 616: SUM=0;
+   551  02D1  1283               	bcf	3,5	;RP0=0, select bank0
+   552  02D2  1303               	bcf	3,6	;RP1=0, select bank0
+   553  02D3  01B0               	clrf	_SUM
+   554  02D4  01B1               	clrf	_SUM+1
+   555  02D5  01B2               	clrf	_SUM+2
+   556  02D6  01B3               	clrf	_SUM+3
+   557                           
+   558                           ;TCQ-V21.C: 625: for(i=0;i<32;i++)
+   559  02D7  01E0               	clrf	_i
+   560  02D8                     l3504:	
+   561                           
+   562                           ;TCQ-V21.C: 626: {
+   563                           ;TCQ-V21.C: 627: for(t=0;t<2048;t++)
+   564  02D8  01DA               	clrf	_t
+   565  02D9  01DB               	clrf	_t+1
+   566  02DA                     l1243:	
+   567                           
+   568                           ;TCQ-V21.C: 628: {
+   569                           ;TCQ-V21.C: 629: GO_DONE = 1;
+   570  02DA  149F               	bsf	31,1
+   571  02DB                     l1245:	
+   572                           ;TCQ-V21.C: 630: while( GO_DONE==1 );
+   573                           
+   574  02DB  189F               	btfsc	31,1
+   575  02DC  2ADB               	goto	l1245
+   576                           
+   577                           ;TCQ-V21.C: 632: k = ADRESH<<8;
+   578  02DD  081E               	movf	30,w	;volatile
+   579  02DE  00D7               	movwf	_k+1
+   580  02DF  01D6               	clrf	_k
+   581                           
+   582                           ;TCQ-V21.C: 633: k+= ADRESL;
+   583  02E0  1683               	bsf	3,5	;RP0=1, select bank1
+   584  02E1  081E               	movf	30,w	;volatile
+   585  02E2  1283               	bcf	3,5	;RP0=0, select bank0
+   586  02E3  07D6               	addwf	_k,f
+   587  02E4  1803               	skipnc
+   588  02E5  0AD7               	incf	_k+1,f
+   589                           
+   590                           ;TCQ-V21.C: 635: SUM+=k;
+   591  02E6  0856               	movf	_k,w
+   592  02E7  00E4               	movwf	??_main
+   593  02E8  0857               	movf	_k+1,w
+   594  02E9  00E5               	movwf	??_main+1
+   595  02EA  01E6               	clrf	??_main+2
+   596  02EB  01E7               	clrf	??_main+3
+   597  02EC  0864               	movf	??_main,w
+   598  02ED  07B0               	addwf	_SUM,f
+   599  02EE  0865               	movf	??_main+1,w
+   600  02EF  1103               	clrz
+   601  02F0  1803               	skipnc
+   602  02F1  3E01               	addlw	1
+   603  02F2  1D03               	btfss	3,2
+   604  02F3  07B1               	addwf	_SUM+1,f
+   605  02F4  0866               	movf	??_main+2,w
+   606  02F5  1103               	clrz
+   607  02F6  1803               	skipnc
+   608  02F7  3E01               	addlw	1
+   609  02F8  1D03               	btfss	3,2
+   610  02F9  07B2               	addwf	_SUM+2,f
+   611  02FA  0867               	movf	??_main+3,w
+   612  02FB  1103               	clrz
+   613  02FC  1803               	skipnc
+   614  02FD  3E01               	addlw	1
+   615  02FE  1D03               	btfss	3,2
+   616  02FF  07B3               	addwf	_SUM+3,f
+   617  0300  0ADA               	incf	_t,f
+   618  0301  1903               	skipnz
+   619  0302  0ADB               	incf	_t+1,f
+   620  0303  3008               	movlw	8
+   621  0304  025B               	subwf	_t+1,w
+   622  0305  3000               	movlw	0
+   623  0306  1903               	skipnz
+   624  0307  025A               	subwf	_t,w
+   625  0308  1C03               	skipc
+   626  0309  2ADA               	goto	l1243
+   627  030A  0064               	clrwdt	;#
+   628  030B  3020               	movlw	32
+   629  030C  1283               	bcf	3,5	;RP0=0, select bank0
+   630  030D  1303               	bcf	3,6	;RP1=0, select bank0
+   631  030E  0AE0               	incf	_i,f
+   632  030F  0260               	subwf	_i,w
+   633  0310  1C03               	skipc
+   634  0311  2AD8               	goto	l3504
+   635                           
+   636                           ;TCQ-V21.C: 694: TH=12000;
+   637  0312  302E               	movlw	46
+   638  0313  01C7               	clrf	_TH+3
+   639  0314  01C6               	clrf	_TH+2
+   640  0315  00C5               	movwf	_TH+1
+   641  0316  30E0               	movlw	224
+   642  0317  00C4               	movwf	_TH
+   643                           
+   644                           ;TCQ-V21.C: 699: light_ad=read_ad(0XB5);
+   645  0318  30B5               	movlw	181
+   646  0319  2114               	fcall	_read_ad
+   647  031A  00E1               	movwf	_light_ad
+   648                           
+   649                           ;TCQ-V21.C: 700: light_ad0=light_ad;
+   650  031B  00E2               	movwf	_light_ad0
+   651                           
+   652                           ;TCQ-V21.C: 702: for(i=0;i<20;i++)DelayUs(228);
+   653  031C  01E0               	clrf	_i
+   654  031D                     l3532:	
+   655  031D  30E4               	movlw	228
+   656  031E  20A1               	fcall	_DelayUs
+   657  031F  3014               	movlw	20
+   658  0320  0AE0               	incf	_i,f
+   659  0321  0260               	subwf	_i,w
+   660  0322  1C03               	skipc
+   661  0323  2B1D               	goto	l3532
+   662  0324  30FF               	movlw	255
+   663                           
+   664                           ;TCQ-V21.C: 706: unsigned int m=0;
+   665  0325  01B0               	clrf	_SUM
+   666  0326  01B1               	clrf	_SUM+1
+   667  0327  01B2               	clrf	_SUM+2
+   668  0328  01B3               	clrf	_SUM+3
+   669                           
+   670                           ;TCQ-V21.C: 707: NOISE_PIR=0XFFFFFFFF;
+   671  0329  00AB               	movwf	_NOISE_PIR+3
+   672  032A  00AA               	movwf	_NOISE_PIR+2
+   673  032B  00A9               	movwf	_NOISE_PIR+1
+   674  032C  00A8               	movwf	_NOISE_PIR
+   675  032D                     l3540:	
+   676                           ;TCQ-V21.C: 709: while(1)
+   677                           
+   678                           
+   679                           ;TCQ-V21.C: 714: {
+   680                           ;TCQ-V21.C: 730: times++;
+   681  032D  1283               	bcf	3,5	;RP0=0, select bank0
+   682  032E  0ADC               	incf	_times,f
+   683  032F  1903               	skipnz
+   684  0330  0ADD               	incf	_times+1,f
+   685                           
+   686                           ;TCQ-V21.C: 732: PIR_AD= Read_CS1237();
+   687  0331  2149               	fcall	_Read_CS1237
+   688  0332  0875               	movf	?_Read_CS1237+3,w
+   689  0333  00AF               	movwf	_PIR_AD+3
+   690  0334  0874               	movf	?_Read_CS1237+2,w
+   691  0335  00AE               	movwf	_PIR_AD+2
+   692  0336  0873               	movf	?_Read_CS1237+1,w
+   693  0337  00AD               	movwf	_PIR_AD+1
+   694  0338  0872               	movf	?_Read_CS1237,w
+   695  0339  00AC               	movwf	_PIR_AD
+   696                           
+   697                           ;TCQ-V21.C: 734: PIR_AD+=0X7FFFFF;
+   698  033A  30FF               	movlw	255
+   699  033B  07AC               	addwf	_PIR_AD,f
+   700  033C  1C03               	skipc
+   701  033D  07AD               	addwf	_PIR_AD+1,f
+   702  033E  307F               	movlw	127
+   703  033F  1803               	skipnc
+   704  0340  3080               	movlw	128
+   705  0341  07AE               	addwf	_PIR_AD+2,f
+   706  0342  3000               	movlw	0
+   707  0343  1803               	skipnc
+   708  0344  3001               	movlw	1
+   709  0345  07AF               	addwf	_PIR_AD+3,f
+   710  0346  307F               	movlw	127
+   711                           
+   712                           ;TCQ-V21.C: 735: PIR_AD&=0X00FFFFFF;
+   713  0347  01AF               	clrf	_PIR_AD+3
+   714                           
+   715                           ;TCQ-V21.C: 742: average1=0X7FFFFF;
+   716  0348  01CB               	clrf	_average1+3
+   717  0349  00CA               	movwf	_average1+2
+   718  034A  30FF               	movlw	255
+   719  034B  00C9               	movwf	_average1+1
+   720  034C  00C8               	movwf	_average1
+   721                           
+   722                           ;TCQ-V21.C: 743: if(PIR_AD>average1) k=PIR_AD-average1;
+   723  034D  3000               	movlw	0
+   724  034E  022F               	subwf	_PIR_AD+3,w
+   725  034F  1D03               	skipz
+   726  0350  2B5B               	goto	u1235
+   727  0351  3080               	movlw	128
+   728  0352  022E               	subwf	_PIR_AD+2,w
+   729  0353  1D03               	skipz
+   730  0354  2B5B               	goto	u1235
+   731  0355  3000               	movlw	0
+   732  0356  022D               	subwf	_PIR_AD+1,w
+   733  0357  1D03               	skipz
+   734  0358  2B5B               	goto	u1235
+   735  0359  3000               	movlw	0
+   736  035A  022C               	subwf	_PIR_AD,w
+   737  035B                     u1235:	
+   738  035B  1C03               	skipc
+   739  035C  2B66               	goto	l1252
+   740  035D  082D               	movf	_PIR_AD+1,w
+   741  035E  00D7               	movwf	_k+1
+   742  035F  082C               	movf	_PIR_AD,w
+   743  0360  00D6               	movwf	_k
+   744  0361  30FF               	movlw	255
+   745  0362  02D6               	subwf	_k,f
+   746  0363  1C03               	skipc
+   747  0364  03D7               	decf	_k+1,f
+   748  0365  02D7               	subwf	_k+1,f
+   749  0366                     l1252:	
+   750                           
+   751                           ;TCQ-V21.C: 744: if(PIR_AD<average1) k=average1-PIR_AD;
+   752  0366  3000               	movlw	0
+   753  0367  022F               	subwf	_PIR_AD+3,w
+   754  0368  1D03               	skipz
+   755  0369  2B74               	goto	u1245
+   756  036A  307F               	movlw	127
+   757  036B  022E               	subwf	_PIR_AD+2,w
+   758  036C  1D03               	skipz
+   759  036D  2B74               	goto	u1245
+   760  036E  30FF               	movlw	255
+   761  036F  022D               	subwf	_PIR_AD+1,w
+   762  0370  1D03               	skipz
+   763  0371  2B74               	goto	u1245
+   764  0372  30FF               	movlw	255
+   765  0373  022C               	subwf	_PIR_AD,w
+   766  0374                     u1245:	
+   767  0374  1803               	skipnc
+   768  0375  2B7F               	goto	l1253
+   769  0376  30FF               	movlw	255
+   770  0377  00D6               	movwf	_k
+   771  0378  00D7               	movwf	_k+1
+   772  0379  082C               	movf	_PIR_AD,w
+   773  037A  02D6               	subwf	_k,f
+   774  037B  082D               	movf	_PIR_AD+1,w
+   775  037C  1C03               	skipc
+   776  037D  03D7               	decf	_k+1,f
+   777  037E  02D7               	subwf	_k+1,f
+   778  037F                     l1253:	
+   779                           
+   780                           ;TCQ-V21.C: 745: SUM3+=k;
+   781  037F  0856               	movf	_k,w
+   782  0380  00E4               	movwf	??_main
+   783  0381  0857               	movf	_k+1,w
+   784  0382  00E5               	movwf	??_main+1
+   785  0383  01E6               	clrf	??_main+2
+   786  0384  01E7               	clrf	??_main+3
+   787  0385  0864               	movf	??_main,w
+   788  0386  07C0               	addwf	_SUM3,f
+   789  0387  0865               	movf	??_main+1,w
+   790  0388  1103               	clrz
+   791  0389  1803               	skipnc
+   792  038A  3E01               	addlw	1
+   793  038B  1D03               	btfss	3,2
+   794  038C  07C1               	addwf	_SUM3+1,f
+   795  038D  0866               	movf	??_main+2,w
+   796  038E  1103               	clrz
+   797  038F  1803               	skipnc
+   798  0390  3E01               	addlw	1
+   799  0391  1D03               	btfss	3,2
+   800  0392  07C2               	addwf	_SUM3+2,f
+   801  0393  0867               	movf	??_main+3,w
+   802  0394  1103               	clrz
+   803  0395  1803               	skipnc
+   804  0396  3E01               	addlw	1
+   805  0397  1D03               	btfss	3,2
+   806  0398  07C3               	addwf	_SUM3+3,f
+   807                           
+   808                           ;TCQ-V21.C: 746: times1++;
+   809  0399  0ACC               	incf	_times1,f
+   810  039A  1903               	skipnz
+   811  039B  0ACD               	incf	_times1+1,f
+   812  039C  1903               	skipnz
+   813  039D  0ACE               	incf	_times1+2,f
+   814  039E  1903               	skipnz
+   815  039F  0ACF               	incf	_times1+3,f
+   816                           
+   817                           ;TCQ-V21.C: 747: if(times1>=8192)
+   818  03A0  3000               	movlw	0
+   819  03A1  024F               	subwf	_times1+3,w
+   820  03A2  1D03               	skipz
+   821  03A3  2BAE               	goto	u1265
+   822  03A4  3000               	movlw	0
+   823  03A5  024E               	subwf	_times1+2,w
+   824  03A6  1D03               	skipz
+   825  03A7  2BAE               	goto	u1265
+   826  03A8  3020               	movlw	32
+   827  03A9  024D               	subwf	_times1+1,w
+   828  03AA  1D03               	skipz
+   829  03AB  2BAE               	goto	u1265
+   830  03AC  3000               	movlw	0
+   831  03AD  024C               	subwf	_times1,w
+   832  03AE                     u1265:	
+   833  03AE  1C03               	skipc
+   834  03AF  2C13               	goto	l3588
+   835                           
+   836                           ;TCQ-V21.C: 748: {
+   837                           ;TCQ-V21.C: 749: times1=0;
+   838  03B0  01CC               	clrf	_times1
+   839  03B1  01CD               	clrf	_times1+1
+   840  03B2  01CE               	clrf	_times1+2
+   841  03B3  01CF               	clrf	_times1+3
+   842                           
+   843                           ;TCQ-V21.C: 751: if(SUM3<NOISE_PIR) NOISE_PIR=SUM3;
+   844  03B4  082B               	movf	_NOISE_PIR+3,w
+   845  03B5  0243               	subwf	_SUM3+3,w
+   846  03B6  1D03               	skipz
+   847  03B7  2BC2               	goto	u1275
+   848  03B8  082A               	movf	_NOISE_PIR+2,w
+   849  03B9  0242               	subwf	_SUM3+2,w
+   850  03BA  1D03               	skipz
+   851  03BB  2BC2               	goto	u1275
+   852  03BC  0829               	movf	_NOISE_PIR+1,w
+   853  03BD  0241               	subwf	_SUM3+1,w
+   854  03BE  1D03               	skipz
+   855  03BF  2BC2               	goto	u1275
+   856  03C0  0828               	movf	_NOISE_PIR,w
+   857  03C1  0240               	subwf	_SUM3,w
+   858  03C2                     u1275:	
+   859  03C2  1803               	skipnc
+   860  03C3  2BCC               	goto	l1255
+   861  03C4  0843               	movf	_SUM3+3,w
+   862  03C5  00AB               	movwf	_NOISE_PIR+3
+   863  03C6  0842               	movf	_SUM3+2,w
+   864  03C7  00AA               	movwf	_NOISE_PIR+2
+   865  03C8  0841               	movf	_SUM3+1,w
+   866  03C9  00A9               	movwf	_NOISE_PIR+1
+   867  03CA  0840               	movf	_SUM3,w
+   868  03CB  00A8               	movwf	_NOISE_PIR
+   869  03CC                     l1255:	
+   870                           
+   871                           ;TCQ-V21.C: 753: if(SUM3-NOISE_PIR>2)
+   872  03CC  0828               	movf	_NOISE_PIR,w
+   873  03CD  0240               	subwf	_SUM3,w
+   874  03CE  00E4               	movwf	??_main
+   875  03CF  0841               	movf	_SUM3+1,w
+   876  03D0  00E5               	movwf	??_main+1
+   877  03D1  0829               	movf	_NOISE_PIR+1,w
+   878  03D2  1C03               	skipc
+   879  03D3  0F29               	incfsz	_NOISE_PIR+1,w
+   880  03D4  02E5               	subwf	??_main+1,f
+   881  03D5  0842               	movf	_SUM3+2,w
+   882  03D6  00E6               	movwf	??_main+2
+   883  03D7  082A               	movf	_NOISE_PIR+2,w
+   884  03D8  1C03               	skipc
+   885  03D9  0F2A               	incfsz	_NOISE_PIR+2,w
+   886  03DA  02E6               	subwf	??_main+2,f
+   887  03DB  0843               	movf	_SUM3+3,w
+   888  03DC  00E7               	movwf	??_main+3
+   889  03DD  082B               	movf	_NOISE_PIR+3,w
+   890  03DE  1C03               	skipc
+   891  03DF  0F2B               	incfsz	_NOISE_PIR+3,w
+   892  03E0  02E7               	subwf	??_main+3,f
+   893  03E1  3000               	movlw	0
+   894  03E2  0267               	subwf	??_main+3,w
+   895  03E3  1D03               	skipz
+   896  03E4  2BEF               	goto	u1295
+   897  03E5  3000               	movlw	0
+   898  03E6  0266               	subwf	??_main+2,w
+   899  03E7  1D03               	skipz
+   900  03E8  2BEF               	goto	u1295
+   901  03E9  3000               	movlw	0
+   902  03EA  0265               	subwf	??_main+1,w
+   903  03EB  1D03               	skipz
+   904  03EC  2BEF               	goto	u1295
+   905  03ED  3003               	movlw	3
+   906  03EE  0264               	subwf	??_main,w
+   907  03EF                     u1295:	
+   908  03EF  1C03               	skipc
+   909  03F0  2BF7               	goto	l3570
+   910                           
+   911                           ;TCQ-V21.C: 754: {
+   912                           ;TCQ-V21.C: 755: PA1=0;
+   913  03F1  1085               	bcf	5,1
+   914                           
+   915                           ;TCQ-V21.C: 756: times2=1;
+   916  03F2  01D0               	clrf	_times2
+   917  03F3  0AD0               	incf	_times2,f
+   918  03F4  01D1               	clrf	_times2+1
+   919  03F5  01D2               	clrf	_times2+2
+   920  03F6  01D3               	clrf	_times2+3
+   921  03F7                     l3570:	
+   922                           
+   923                           ;TCQ-V21.C: 757: }
+   924                           ;TCQ-V21.C: 758: send_data(NOISE_PIR>>24);
+   925  03F7  082B               	movf	_NOISE_PIR+3,w
+   926  03F8  20F9               	fcall	_send_data
+   927                           
+   928                           ;TCQ-V21.C: 759: send_data(NOISE_PIR>>16);
+   929  03F9  1283               	bcf	3,5	;RP0=0, select bank0
+   930  03FA  082A               	movf	_NOISE_PIR+2,w
+   931  03FB  20F9               	fcall	_send_data
+   932                           
+   933                           ;TCQ-V21.C: 760: send_data(NOISE_PIR>>8);
+   934  03FC  1283               	bcf	3,5	;RP0=0, select bank0
+   935  03FD  0829               	movf	_NOISE_PIR+1,w
+   936  03FE  20F9               	fcall	_send_data
+   937                           
+   938                           ;TCQ-V21.C: 761: send_data(NOISE_PIR);
+   939  03FF  1283               	bcf	3,5	;RP0=0, select bank0
+   940  0400  0828               	movf	_NOISE_PIR,w
+   941  0401  20F9               	fcall	_send_data
+   942                           
+   943                           ;TCQ-V21.C: 762: send_data(SUM3>>24);
+   944  0402  1283               	bcf	3,5	;RP0=0, select bank0
+   945  0403  0843               	movf	_SUM3+3,w
+   946  0404  20F9               	fcall	_send_data
+   947                           
+   948                           ;TCQ-V21.C: 763: send_data(SUM3>>16);
+   949  0405  1283               	bcf	3,5	;RP0=0, select bank0
+   950  0406  0842               	movf	_SUM3+2,w
+   951  0407  20F9               	fcall	_send_data
+   952                           
+   953                           ;TCQ-V21.C: 764: send_data(SUM3>>8);
+   954  0408  1283               	bcf	3,5	;RP0=0, select bank0
+   955  0409  0841               	movf	_SUM3+1,w
+   956  040A  20F9               	fcall	_send_data
+   957                           
+   958                           ;TCQ-V21.C: 765: send_data(SUM3);
+   959  040B  1283               	bcf	3,5	;RP0=0, select bank0
+   960  040C  0840               	movf	_SUM3,w
+   961  040D  20F9               	fcall	_send_data
+   962                           
+   963                           ;TCQ-V21.C: 766: SUM3=0;
+   964  040E  1283               	bcf	3,5	;RP0=0, select bank0
+   965  040F  01C0               	clrf	_SUM3
+   966  0410  01C1               	clrf	_SUM3+1
+   967  0411  01C2               	clrf	_SUM3+2
+   968  0412  01C3               	clrf	_SUM3+3
+   969  0413                     l3588:	
+   970                           
+   971                           ;TCQ-V21.C: 767: }
+   972                           ;TCQ-V21.C: 768: if(times2>0)
+   973  0413  0853               	movf	_times2+3,w
+   974  0414  0452               	iorwf	_times2+2,w
+   975  0415  0451               	iorwf	_times2+1,w
+   976  0416  0450               	iorwf	_times2,w
+   977  0417  1903               	skipnz
+   978  0418  2C35               	goto	l3596
+   979                           
+   980                           ;TCQ-V21.C: 769: {
+   981                           ;TCQ-V21.C: 770: times2++;
+   982  0419  0AD0               	incf	_times2,f
+   983  041A  1903               	skipnz
+   984  041B  0AD1               	incf	_times2+1,f
+   985  041C  1903               	skipnz
+   986  041D  0AD2               	incf	_times2+2,f
+   987  041E  1903               	skipnz
+   988  041F  0AD3               	incf	_times2+3,f
+   989                           
+   990                           ;TCQ-V21.C: 771: if(times2>2048)
+   991  0420  3000               	movlw	0
+   992  0421  0253               	subwf	_times2+3,w
+   993  0422  1D03               	skipz
+   994  0423  2C2E               	goto	u1315
+   995  0424  3000               	movlw	0
+   996  0425  0252               	subwf	_times2+2,w
+   997  0426  1D03               	skipz
+   998  0427  2C2E               	goto	u1315
+   999  0428  3008               	movlw	8
+  1000  0429  0251               	subwf	_times2+1,w
+  1001  042A  1D03               	skipz
+  1002  042B  2C2E               	goto	u1315
+  1003  042C  3001               	movlw	1
+  1004  042D  0250               	subwf	_times2,w
+  1005  042E                     u1315:	
+  1006  042E  1C03               	skipc
+  1007  042F  2C35               	goto	l3596
+  1008                           
+  1009                           ;TCQ-V21.C: 772: {
+  1010                           ;TCQ-V21.C: 773: PA1=1;
+  1011  0430  1485               	bsf	5,1
+  1012                           
+  1013                           ;TCQ-V21.C: 774: times2=0;
+  1014  0431  01D0               	clrf	_times2
+  1015  0432  01D1               	clrf	_times2+1
+  1016  0433  01D2               	clrf	_times2+2
+  1017  0434  01D3               	clrf	_times2+3
+  1018  0435                     l3596:	
+  1019                           
+  1020                           ;TCQ-V21.C: 775: }
+  1021                           ;TCQ-V21.C: 776: }
+  1022                           ;TCQ-V21.C: 795: if(times>=512)
+  1023  0435  3002               	movlw	2
+  1024  0436  025D               	subwf	_times+1,w
+  1025  0437  3000               	movlw	0
+  1026  0438  1903               	skipnz
+  1027  0439  025C               	subwf	_times,w
+  1028  043A  1C03               	skipc
+  1029  043B  2FB8               	goto	l3762
+  1030  043C  3008               	movlw	8
+  1031                           
+  1032                           ;TCQ-V21.C: 796: {
+  1033                           ;TCQ-V21.C: 810: times=0;
+  1034  043D  01DC               	clrf	_times
+  1035  043E  01DD               	clrf	_times+1
+  1036                           
+  1037                           ;TCQ-V21.C: 814: SUM16+=SUM;
+  1038  043F  0ADE               	incf	_calc_average_times,f
+  1039                           
+  1040                           ;TCQ-V21.C: 816: if(calc_average_times>=8)
+  1041  0440  025E               	subwf	_calc_average_times,w
+  1042  0441  1803               	btfsc	3,0
+  1043                           
+  1044                           ;TCQ-V21.C: 823: SUM16=0;
+  1045  0442  01DE               	clrf	_calc_average_times
+  1046                           
+  1047                           ;TCQ-V21.C: 824: }
+  1048                           ;TCQ-V21.C: 826: if(check_light_times<6)
+  1049  0443  3006               	movlw	6
+  1050  0444  025F               	subwf	_check_light_times,w
+  1051  0445  1803               	skipnc
+  1052  0446  2C49               	goto	l3610
+  1053                           
+  1054                           ;TCQ-V21.C: 827: {
+  1055                           ;TCQ-V21.C: 828: check_light_times++;
+  1056  0447  0ADF               	incf	_check_light_times,f
+  1057                           
+  1058                           ;TCQ-V21.C: 829: }
+  1059  0448  2C7D               	goto	l3622
+  1060  0449                     l3610:	
+  1061                           
+  1062                           ;TCQ-V21.C: 830: else
+  1063                           ;TCQ-V21.C: 831: {
+  1064                           ;TCQ-V21.C: 832: if(LIGHT==0)
+  1065  0449  0855               	movf	_LIGHT+1,w
+  1066  044A  0454               	iorwf	_LIGHT,w
+  1067  044B  1D03               	skipz
+  1068  044C  2C7D               	goto	l3622
+  1069                           
+  1070                           ;TCQ-V21.C: 833: {
+  1071                           ;TCQ-V21.C: 835: light_ad=read_ad(0XB5);
+  1072  044D  30B5               	movlw	181
+  1073  044E  2114               	fcall	_read_ad
+  1074  044F  00E1               	movwf	_light_ad
+  1075                           
+  1076                           ;TCQ-V21.C: 837: if((light_ad<=(light_ad0+2))&&(light_ad0<=(light_ad+2)))
+  1077  0450  0862               	movf	_light_ad0,w
+  1078  0451  3E02               	addlw	2
+  1079  0452  00E4               	movwf	??_main
+  1080  0453  3000               	movlw	0
+  1081  0454  1803               	skipnc
+  1082  0455  3001               	movlw	1
+  1083  0456  00E5               	movwf	??_main+1
+  1084  0457  3A80               	xorlw	128
+  1085  0458  00E6               	movwf	??_main+2
+  1086  0459  3080               	movlw	128
+  1087  045A  0266               	subwf	??_main+2,w
+  1088  045B  1D03               	skipz
+  1089  045C  2C5F               	goto	u1365
+  1090  045D  0861               	movf	_light_ad,w
+  1091  045E  0264               	subwf	??_main,w
+  1092  045F                     u1365:	
+  1093  045F  1283               	bcf	3,5	;RP0=0, select bank0
+  1094  0460  1303               	bcf	3,6	;RP1=0, select bank0
+  1095  0461  0861               	movf	_light_ad,w
+  1096  0462  1C03               	skipc
+  1097  0463  2C7B               	goto	L3
+  1098  0464  3E02               	addlw	2
+  1099  0465  00E4               	movwf	??_main
+  1100  0466  3000               	movlw	0
+  1101  0467  1803               	skipnc
+  1102  0468  3001               	movlw	1
+  1103  0469  00E5               	movwf	??_main+1
+  1104  046A  3A80               	xorlw	128
+  1105  046B  00E6               	movwf	??_main+2
+  1106  046C  3080               	movlw	128
+  1107  046D  0266               	subwf	??_main+2,w
+  1108  046E  1D03               	skipz
+  1109  046F  2C72               	goto	u1375
+  1110  0470  0862               	movf	_light_ad0,w
+  1111  0471  0264               	subwf	??_main,w
+  1112  0472                     u1375:	
+  1113                           
+  1114                           ;TCQ-V21.C: 838: light_ad=light_ad0;
+  1115  0472  1283               	bcf	3,5	;RP0=0, select bank0
+  1116  0473  1303               	bcf	3,6	;RP1=0, select bank0
+  1117  0474  1C03               	skipc
+  1118  0475  2C7A               	goto	L4
+  1119  0476  0862               	movf	_light_ad0,w
+  1120  0477  00E1               	movwf	_light_ad
+  1121                           
+  1122                           ;TCQ-V21.C: 840: light_ad0=light_ad;
+  1123  0478  1283               	bcf	3,5	;RP0=0, select bank0
+  1124  0479  1303               	bcf	3,6	;RP1=0, select bank0
+  1125  047A                     L4:	
+  1126  047A  0861               	movf	_light_ad,w
+  1127  047B                     L3:	
+  1128  047B  00E2               	movwf	_light_ad0
+  1129                           
+  1130                           ;TCQ-V21.C: 842: check_light_times=0;
+  1131  047C  01DF               	clrf	_check_light_times
+  1132  047D                     l3622:	
+  1133                           
+  1134                           ;TCQ-V21.C: 844: }
+  1135                           ;TCQ-V21.C: 846: }
+  1136                           ;TCQ-V21.C: 849: if(SUM0==0)SUM0=SUM1+1000;
+  1137  047D  0837               	movf	_SUM0+3,w
+  1138  047E  0436               	iorwf	_SUM0+2,w
+  1139  047F  0435               	iorwf	_SUM0+1,w
+  1140  0480  0434               	iorwf	_SUM0,w
+  1141  0481  1D03               	skipz
+  1142  0482  2C99               	goto	l3626
+  1143  0483  083B               	movf	_SUM1+3,w
+  1144  0484  00B7               	movwf	_SUM0+3
+  1145  0485  083A               	movf	_SUM1+2,w
+  1146  0486  00B6               	movwf	_SUM0+2
+  1147  0487  0839               	movf	_SUM1+1,w
+  1148  0488  00B5               	movwf	_SUM0+1
+  1149  0489  0838               	movf	_SUM1,w
+  1150  048A  00B4               	movwf	_SUM0
+  1151  048B  30E8               	movlw	232
+  1152  048C  07B4               	addwf	_SUM0,f
+  1153  048D  3003               	movlw	3
+  1154  048E  1803               	skipnc
+  1155  048F  3004               	movlw	4
+  1156  0490  07B5               	addwf	_SUM0+1,f
+  1157  0491  3000               	movlw	0
+  1158  0492  1803               	skipnc
+  1159  0493  3001               	movlw	1
+  1160  0494  07B6               	addwf	_SUM0+2,f
+  1161  0495  3000               	movlw	0
+  1162  0496  1803               	skipnc
+  1163  0497  3001               	movlw	1
+  1164  0498  07B7               	addwf	_SUM0+3,f
+  1165  0499                     l3626:	
+  1166                           
+  1167                           ;TCQ-V21.C: 852: if(SUM1_counter==0)
+  1168  0499  08FD               	movf	_SUM1_counter,f
+  1169  049A  1D03               	skipz
+  1170  049B  2CD0               	goto	l1266
+  1171                           
+  1172                           ;TCQ-V21.C: 853: {
+  1173                           ;TCQ-V21.C: 854: SUM10=SUM1;
+  1174  049C  083B               	movf	_SUM1+3,w
+  1175  049D  00BF               	movwf	_SUM10+3
+  1176  049E  083A               	movf	_SUM1+2,w
+  1177  049F  00BE               	movwf	_SUM10+2
+  1178  04A0  0839               	movf	_SUM1+1,w
+  1179  04A1  00BD               	movwf	_SUM10+1
+  1180  04A2  0838               	movf	_SUM1,w
+  1181  04A3  00BC               	movwf	_SUM10
+  1182                           
+  1183                           ;TCQ-V21.C: 855: MAX_DELTA=SUM10/6;
+  1184  04A4  3006               	movlw	6
+  1185  04A5  00F0               	movwf	?___lldiv
+  1186  04A6  01F1               	clrf	?___lldiv+1
+  1187  04A7  01F2               	clrf	?___lldiv+2
+  1188  04A8  01F3               	clrf	?___lldiv+3
+  1189  04A9  083F               	movf	_SUM10+3,w
+  1190  04AA  00F7               	movwf	?___lldiv+7
+  1191  04AB  083E               	movf	_SUM10+2,w
+  1192  04AC  00F6               	movwf	?___lldiv+6
+  1193  04AD  083D               	movf	_SUM10+1,w
+  1194  04AE  00F5               	movwf	?___lldiv+5
+  1195  04AF  083C               	movf	_SUM10,w
+  1196  04B0  00F4               	movwf	?___lldiv+4
+  1197  04B1  2185               	fcall	___lldiv
+  1198  04B2  0873               	movf	?___lldiv+3,w
+  1199  04B3  00A7               	movwf	_MAX_DELTA+3
+  1200  04B4  0872               	movf	?___lldiv+2,w
+  1201  04B5  00A6               	movwf	_MAX_DELTA+2
+  1202  04B6  0871               	movf	?___lldiv+1,w
+  1203  04B7  00A5               	movwf	_MAX_DELTA+1
+  1204  04B8  0870               	movf	?___lldiv,w
+  1205  04B9  00A4               	movwf	_MAX_DELTA
+  1206                           
+  1207                           ;TCQ-V21.C: 856: if(MAX_DELTA<4000)MAX_DELTA=4000;
+  1208  04BA  3000               	movlw	0
+  1209  04BB  0227               	subwf	_MAX_DELTA+3,w
+  1210  04BC  1D03               	skipz
+  1211  04BD  2CC8               	goto	u1405
+  1212  04BE  3000               	movlw	0
+  1213  04BF  0226               	subwf	_MAX_DELTA+2,w
+  1214  04C0  1D03               	skipz
+  1215  04C1  2CC8               	goto	u1405
+  1216  04C2  300F               	movlw	15
+  1217  04C3  0225               	subwf	_MAX_DELTA+1,w
+  1218  04C4  1D03               	skipz
+  1219  04C5  2CC8               	goto	u1405
+  1220  04C6  30A0               	movlw	160
+  1221  04C7  0224               	subwf	_MAX_DELTA,w
+  1222  04C8                     u1405:	
+  1223  04C8  1803               	skipnc
+  1224  04C9  2CD0               	goto	l1266
+  1225  04CA  300F               	movlw	15
+  1226  04CB  01A7               	clrf	_MAX_DELTA+3
+  1227  04CC  01A6               	clrf	_MAX_DELTA+2
+  1228  04CD  00A5               	movwf	_MAX_DELTA+1
+  1229  04CE  30A0               	movlw	160
+  1230  04CF  00A4               	movwf	_MAX_DELTA
+  1231  04D0                     l1266:	
+  1232                           
+  1233                           ;TCQ-V21.C: 857: }
+  1234                           ;TCQ-V21.C: 859: if((SUM10<(SUM1+MAX_DELTA))&&(SUM1<(SUM10+MAX_DELTA)))
+  1235  04D0  0838               	movf	_SUM1,w
+  1236  04D1  0724               	addwf	_MAX_DELTA,w
+  1237  04D2  00E4               	movwf	??_main
+  1238  04D3  3000               	movlw	0
+  1239  04D4  1803               	skipnc
+  1240  04D5  3001               	movlw	1
+  1241  04D6  0739               	addwf	_SUM1+1,w
+  1242  04D7  01E6               	clrf	??_main+2
+  1243  04D8  1803               	skipnc
+  1244  04D9  0AE6               	incf	??_main+2,f
+  1245  04DA  0725               	addwf	_MAX_DELTA+1,w
+  1246  04DB  00E5               	movwf	??_main+1
+  1247  04DC  1803               	skipnc
+  1248  04DD  0AE6               	incf	??_main+2,f
+  1249  04DE  083A               	movf	_SUM1+2,w
+  1250  04DF  0766               	addwf	??_main+2,w
+  1251  04E0  01E7               	clrf	??_main+3
+  1252  04E1  1803               	skipnc
+  1253  04E2  0AE7               	incf	??_main+3,f
+  1254  04E3  0726               	addwf	_MAX_DELTA+2,w
+  1255  04E4  00E6               	movwf	??_main+2
+  1256  04E5  1803               	skipnc
+  1257  04E6  0AE7               	incf	??_main+3,f
+  1258  04E7  083B               	movf	_SUM1+3,w
+  1259  04E8  0767               	addwf	??_main+3,w
+  1260  04E9  0727               	addwf	_MAX_DELTA+3,w
+  1261  04EA  00E7               	movwf	??_main+3
+  1262  04EB  023F               	subwf	_SUM10+3,w
+  1263  04EC  1D03               	skipz
+  1264  04ED  2CF8               	goto	u1415
+  1265  04EE  0866               	movf	??_main+2,w
+  1266  04EF  023E               	subwf	_SUM10+2,w
+  1267  04F0  1D03               	skipz
+  1268  04F1  2CF8               	goto	u1415
+  1269  04F2  0865               	movf	??_main+1,w
+  1270  04F3  023D               	subwf	_SUM10+1,w
+  1271  04F4  1D03               	skipz
+  1272  04F5  2CF8               	goto	u1415
+  1273  04F6  0864               	movf	??_main,w
+  1274  04F7  023C               	subwf	_SUM10,w
+  1275  04F8                     u1415:	
+  1276  04F8  1803               	skipnc
+  1277  04F9  2E04               	goto	l3674
+  1278  04FA  083C               	movf	_SUM10,w
+  1279  04FB  0724               	addwf	_MAX_DELTA,w
+  1280  04FC  00E4               	movwf	??_main
+  1281  04FD  3000               	movlw	0
+  1282  04FE  1803               	skipnc
+  1283  04FF  3001               	movlw	1
+  1284  0500  073D               	addwf	_SUM10+1,w
+  1285  0501  01E6               	clrf	??_main+2
+  1286  0502  1803               	skipnc
+  1287  0503  0AE6               	incf	??_main+2,f
+  1288  0504  0725               	addwf	_MAX_DELTA+1,w
+  1289  0505  00E5               	movwf	??_main+1
+  1290  0506  1803               	skipnc
+  1291  0507  0AE6               	incf	??_main+2,f
+  1292  0508  083E               	movf	_SUM10+2,w
+  1293  0509  0766               	addwf	??_main+2,w
+  1294  050A  01E7               	clrf	??_main+3
+  1295  050B  1803               	skipnc
+  1296  050C  0AE7               	incf	??_main+3,f
+  1297  050D  0726               	addwf	_MAX_DELTA+2,w
+  1298  050E  00E6               	movwf	??_main+2
+  1299  050F  1803               	skipnc
+  1300  0510  0AE7               	incf	??_main+3,f
+  1301  0511  083F               	movf	_SUM10+3,w
+  1302  0512  0767               	addwf	??_main+3,w
+  1303  0513  0727               	addwf	_MAX_DELTA+3,w
+  1304  0514  00E7               	movwf	??_main+3
+  1305  0515  023B               	subwf	_SUM1+3,w
+  1306  0516  1D03               	skipz
+  1307  0517  2D22               	goto	u1425
+  1308  0518  0866               	movf	??_main+2,w
+  1309  0519  023A               	subwf	_SUM1+2,w
+  1310  051A  1D03               	skipz
+  1311  051B  2D22               	goto	u1425
+  1312  051C  0865               	movf	??_main+1,w
+  1313  051D  0239               	subwf	_SUM1+1,w
+  1314  051E  1D03               	skipz
+  1315  051F  2D22               	goto	u1425
+  1316  0520  0864               	movf	??_main,w
+  1317  0521  0238               	subwf	_SUM1,w
+  1318  0522                     u1425:	
+  1319  0522  1803               	skipnc
+  1320  0523  2E04               	goto	l3674
+  1321                           
+  1322                           ;TCQ-V21.C: 860: {
+  1323                           ;TCQ-V21.C: 861: SUM1_counter++;
+  1324  0524  0AFD               	incf	_SUM1_counter,f
+  1325                           
+  1326                           ;TCQ-V21.C: 862: ALL_SUM1+=SUM1;
+  1327  0525  0838               	movf	_SUM1,w
+  1328  0526  07A0               	addwf	_ALL_SUM1,f
+  1329  0527  0839               	movf	_SUM1+1,w
+  1330  0528  1103               	clrz
+  1331  0529  1803               	skipnc
+  1332  052A  3E01               	addlw	1
+  1333  052B  1D03               	btfss	3,2
+  1334  052C  07A1               	addwf	_ALL_SUM1+1,f
+  1335  052D  083A               	movf	_SUM1+2,w
+  1336  052E  1103               	clrz
+  1337  052F  1803               	skipnc
+  1338  0530  3E01               	addlw	1
+  1339  0531  1D03               	btfss	3,2
+  1340  0532  07A2               	addwf	_ALL_SUM1+2,f
+  1341  0533  083B               	movf	_SUM1+3,w
+  1342  0534  1103               	clrz
+  1343  0535  1803               	skipnc
+  1344  0536  3E01               	addlw	1
+  1345  0537  1D03               	btfss	3,2
+  1346  0538  07A3               	addwf	_ALL_SUM1+3,f
+  1347                           
+  1348                           ;TCQ-V21.C: 863: SUM10=ALL_SUM1/SUM1_counter;
+  1349  0539  087D               	movf	_SUM1_counter,w
+  1350  053A  00F0               	movwf	?___lldiv
+  1351  053B  01F1               	clrf	?___lldiv+1
+  1352  053C  01F2               	clrf	?___lldiv+2
+  1353  053D  01F3               	clrf	?___lldiv+3
+  1354  053E  0823               	movf	_ALL_SUM1+3,w
+  1355  053F  00F7               	movwf	?___lldiv+7
+  1356  0540  0822               	movf	_ALL_SUM1+2,w
+  1357  0541  00F6               	movwf	?___lldiv+6
+  1358  0542  0821               	movf	_ALL_SUM1+1,w
+  1359  0543  00F5               	movwf	?___lldiv+5
+  1360  0544  0820               	movf	_ALL_SUM1,w
+  1361  0545  00F4               	movwf	?___lldiv+4
+  1362  0546  2185               	fcall	___lldiv
+  1363  0547  0873               	movf	?___lldiv+3,w
+  1364  0548  00BF               	movwf	_SUM10+3
+  1365  0549  0872               	movf	?___lldiv+2,w
+  1366  054A  00BE               	movwf	_SUM10+2
+  1367  054B  0871               	movf	?___lldiv+1,w
+  1368  054C  00BD               	movwf	_SUM10+1
+  1369  054D  0870               	movf	?___lldiv,w
+  1370  054E  00BC               	movwf	_SUM10
+  1371                           
+  1372                           ;TCQ-V21.C: 864: MAX_DELTA=SUM10/6;
+  1373  054F  3006               	movlw	6
+  1374  0550  00F0               	movwf	?___lldiv
+  1375  0551  01F1               	clrf	?___lldiv+1
+  1376  0552  01F2               	clrf	?___lldiv+2
+  1377  0553  01F3               	clrf	?___lldiv+3
+  1378  0554  083F               	movf	_SUM10+3,w
+  1379  0555  00F7               	movwf	?___lldiv+7
+  1380  0556  083E               	movf	_SUM10+2,w
+  1381  0557  00F6               	movwf	?___lldiv+6
+  1382  0558  083D               	movf	_SUM10+1,w
+  1383  0559  00F5               	movwf	?___lldiv+5
+  1384  055A  083C               	movf	_SUM10,w
+  1385  055B  00F4               	movwf	?___lldiv+4
+  1386  055C  2185               	fcall	___lldiv
+  1387  055D  0873               	movf	?___lldiv+3,w
+  1388  055E  00A7               	movwf	_MAX_DELTA+3
+  1389  055F  0872               	movf	?___lldiv+2,w
+  1390  0560  00A6               	movwf	_MAX_DELTA+2
+  1391  0561  0871               	movf	?___lldiv+1,w
+  1392  0562  00A5               	movwf	_MAX_DELTA+1
+  1393  0563  0870               	movf	?___lldiv,w
+  1394  0564  00A4               	movwf	_MAX_DELTA
+  1395                           
+  1396                           ;TCQ-V21.C: 865: if(MAX_DELTA<4000)MAX_DELTA=4000;
+  1397  0565  3000               	movlw	0
+  1398  0566  0227               	subwf	_MAX_DELTA+3,w
+  1399  0567  1D03               	skipz
+  1400  0568  2D73               	goto	u1445
+  1401  0569  3000               	movlw	0
+  1402  056A  0226               	subwf	_MAX_DELTA+2,w
+  1403  056B  1D03               	skipz
+  1404  056C  2D73               	goto	u1445
+  1405  056D  300F               	movlw	15
+  1406  056E  0225               	subwf	_MAX_DELTA+1,w
+  1407  056F  1D03               	skipz
+  1408  0570  2D73               	goto	u1445
+  1409  0571  30A0               	movlw	160
+  1410  0572  0224               	subwf	_MAX_DELTA,w
+  1411  0573                     u1445:	
+  1412  0573  1803               	skipnc
+  1413  0574  2D7B               	goto	l1269
+  1414  0575  300F               	movlw	15
+  1415  0576  01A7               	clrf	_MAX_DELTA+3
+  1416  0577  01A6               	clrf	_MAX_DELTA+2
+  1417  0578  00A5               	movwf	_MAX_DELTA+1
+  1418  0579  30A0               	movlw	160
+  1419  057A  00A4               	movwf	_MAX_DELTA
+  1420  057B                     l1269:	
+  1421                           
+  1422                           ;TCQ-V21.C: 867: if(SUM0>SUM10)
+  1423  057B  0837               	movf	_SUM0+3,w
+  1424  057C  023F               	subwf	_SUM10+3,w
+  1425  057D  1D03               	skipz
+  1426  057E  2D89               	goto	u1455
+  1427  057F  0836               	movf	_SUM0+2,w
+  1428  0580  023E               	subwf	_SUM10+2,w
+  1429  0581  1D03               	skipz
+  1430  0582  2D89               	goto	u1455
+  1431  0583  0835               	movf	_SUM0+1,w
+  1432  0584  023D               	subwf	_SUM10+1,w
+  1433  0585  1D03               	skipz
+  1434  0586  2D89               	goto	u1455
+  1435  0587  0834               	movf	_SUM0,w
+  1436  0588  023C               	subwf	_SUM10,w
+  1437  0589                     u1455:	
+  1438  0589  1803               	skipnc
+  1439  058A  2DC5               	goto	l3658
+  1440                           
+  1441                           ;TCQ-V21.C: 868: {
+  1442                           ;TCQ-V21.C: 869: SUM=SUM0-SUM10;
+  1443  058B  0837               	movf	_SUM0+3,w
+  1444  058C  00B3               	movwf	_SUM+3
+  1445  058D  0836               	movf	_SUM0+2,w
+  1446  058E  00B2               	movwf	_SUM+2
+  1447  058F  0835               	movf	_SUM0+1,w
+  1448  0590  00B1               	movwf	_SUM+1
+  1449  0591  0834               	movf	_SUM0,w
+  1450  0592  00B0               	movwf	_SUM
+  1451  0593  083C               	movf	_SUM10,w
+  1452  0594  02B0               	subwf	_SUM,f
+  1453  0595  083D               	movf	_SUM10+1,w
+  1454  0596  1C03               	skipc
+  1455  0597  0F3D               	incfsz	_SUM10+1,w
+  1456  0598  02B1               	subwf	_SUM+1,f
+  1457  0599  083E               	movf	_SUM10+2,w
+  1458  059A  1C03               	skipc
+  1459  059B  0F3E               	incfsz	_SUM10+2,w
+  1460  059C  02B2               	subwf	_SUM+2,f
+  1461  059D  083F               	movf	_SUM10+3,w
+  1462  059E  1C03               	skipc
+  1463  059F  0F3F               	incfsz	_SUM10+3,w
+  1464  05A0  02B3               	subwf	_SUM+3,f
+  1465                           
+  1466                           ;TCQ-V21.C: 870: if(SUM>30000)SUM0_num=2;
+  1467  05A1  3000               	movlw	0
+  1468  05A2  0233               	subwf	_SUM+3,w
+  1469  05A3  1D03               	skipz
+  1470  05A4  2DAF               	goto	u1465
+  1471  05A5  3000               	movlw	0
+  1472  05A6  0232               	subwf	_SUM+2,w
+  1473  05A7  1D03               	skipz
+  1474  05A8  2DAF               	goto	u1465
+  1475  05A9  3075               	movlw	117
+  1476  05AA  0231               	subwf	_SUM+1,w
+  1477  05AB  1D03               	skipz
+  1478  05AC  2DAF               	goto	u1465
+  1479  05AD  3031               	movlw	49
+  1480  05AE  0230               	subwf	_SUM,w
+  1481  05AF                     u1465:	
+  1482  05AF  1C03               	skipc
+  1483  05B0  2DB3               	goto	l3654
+  1484  05B1  3002               	movlw	2
+  1485  05B2  2DC6               	goto	L1
+  1486  05B3                     l3654:	
+  1487                           
+  1488                           ;TCQ-V21.C: 871: else if(SUM>8000)SUM0_num=4;
+  1489  05B3  3000               	movlw	0
+  1490  05B4  0233               	subwf	_SUM+3,w
+  1491  05B5  1D03               	skipz
+  1492  05B6  2DC1               	goto	u1475
+  1493  05B7  3000               	movlw	0
+  1494  05B8  0232               	subwf	_SUM+2,w
+  1495  05B9  1D03               	skipz
+  1496  05BA  2DC1               	goto	u1475
+  1497  05BB  301F               	movlw	31
+  1498  05BC  0231               	subwf	_SUM+1,w
+  1499  05BD  1D03               	skipz
+  1500  05BE  2DC1               	goto	u1475
+  1501  05BF  3041               	movlw	65
+  1502  05C0  0230               	subwf	_SUM,w
+  1503  05C1                     u1475:	
+  1504  05C1  1C03               	skipc
+  1505  05C2  2DC5               	goto	l3658
+  1506  05C3  3004               	movlw	4
+  1507  05C4  2DC6               	goto	L1
+  1508  05C5                     l3658:	
+  1509                           
+  1510                           ;TCQ-V21.C: 872: else SUM0_num=16;
+  1511  05C5  3010               	movlw	16
+  1512  05C6                     L1:	
+  1513  05C6  00E8               	movwf	_SUM0_num
+  1514                           
+  1515                           ;TCQ-V21.C: 877: }
+  1516                           ;TCQ-V21.C: 878: if((SUM1_counter>=SUM0_num)&&(SUM10<SUM0))
+  1517  05C7  027D               	subwf	_SUM1_counter,w
+  1518  05C8  1C03               	skipc
+  1519  05C9  2E0A               	goto	l3678
+  1520  05CA  0837               	movf	_SUM0+3,w
+  1521  05CB  023F               	subwf	_SUM10+3,w
+  1522  05CC  1D03               	skipz
+  1523  05CD  2DD8               	goto	u1495
+  1524  05CE  0836               	movf	_SUM0+2,w
+  1525  05CF  023E               	subwf	_SUM10+2,w
+  1526  05D0  1D03               	skipz
+  1527  05D1  2DD8               	goto	u1495
+  1528  05D2  0835               	movf	_SUM0+1,w
+  1529  05D3  023D               	subwf	_SUM10+1,w
+  1530  05D4  1D03               	skipz
+  1531  05D5  2DD8               	goto	u1495
+  1532  05D6  0834               	movf	_SUM0,w
+  1533  05D7  023C               	subwf	_SUM10,w
+  1534  05D8                     u1495:	
+  1535  05D8  1803               	skipnc
+  1536  05D9  2E0A               	goto	l3678
+  1537                           
+  1538                           ;TCQ-V21.C: 879: {
+  1539                           ;TCQ-V21.C: 880: if(SUM1_num>16)
+  1540  05DA  3011               	movlw	17
+  1541  05DB  0269               	subwf	_SUM1_num,w
+  1542  05DC  1C03               	skipc
+  1543  05DD  2F08               	goto	l3726
+  1544                           
+  1545                           ;TCQ-V21.C: 881: {
+  1546                           ;TCQ-V21.C: 882: if(SUM0_num<=8)SUM0=SUM10;
+  1547  05DE  3009               	movlw	9
+  1548  05DF  0268               	subwf	_SUM0_num,w
+  1549  05E0  1803               	skipnc
+  1550  05E1  2DEB               	goto	l3670
+  1551  05E2  083F               	movf	_SUM10+3,w
+  1552  05E3  00B7               	movwf	_SUM0+3
+  1553  05E4  083E               	movf	_SUM10+2,w
+  1554  05E5  00B6               	movwf	_SUM0+2
+  1555  05E6  083D               	movf	_SUM10+1,w
+  1556  05E7  00B5               	movwf	_SUM0+1
+  1557  05E8  083C               	movf	_SUM10,w
+  1558  05E9  00B4               	movwf	_SUM0
+  1559  05EA  2E04               	goto	l3674
+  1560  05EB                     l3670:	
+  1561                           
+  1562                           ;TCQ-V21.C: 883: else
+  1563                           ;TCQ-V21.C: 884: {
+  1564                           ;TCQ-V21.C: 885: SUM0+=SUM10;
+  1565  05EB  083C               	movf	_SUM10,w
+  1566  05EC  07B4               	addwf	_SUM0,f
+  1567  05ED  083D               	movf	_SUM10+1,w
+  1568  05EE  1103               	clrz
+  1569  05EF  1803               	skipnc
+  1570  05F0  3E01               	addlw	1
+  1571  05F1  1D03               	btfss	3,2
+  1572  05F2  07B5               	addwf	_SUM0+1,f
+  1573  05F3  083E               	movf	_SUM10+2,w
+  1574  05F4  1103               	clrz
+  1575  05F5  1803               	skipnc
+  1576  05F6  3E01               	addlw	1
+  1577  05F7  1D03               	btfss	3,2
+  1578  05F8  07B6               	addwf	_SUM0+2,f
+  1579  05F9  083F               	movf	_SUM10+3,w
+  1580  05FA  1103               	clrz
+  1581  05FB  1803               	skipnc
+  1582  05FC  3E01               	addlw	1
+  1583  05FD  1D03               	btfss	3,2
+  1584  05FE  07B7               	addwf	_SUM0+3,f
+  1585                           
+  1586                           ;TCQ-V21.C: 886: SUM0/=2;
+  1587  05FF  1003               	clrc
+  1588  0600  0CB7               	rrf	_SUM0+3,f
+  1589  0601  0CB6               	rrf	_SUM0+2,f
+  1590  0602  0CB5               	rrf	_SUM0+1,f
+  1591  0603  0CB4               	rrf	_SUM0,f
+  1592  0604                     l3674:	
+  1593                           
+  1594                           ;TCQ-V21.C: 887: }
+  1595                           ;TCQ-V21.C: 888: SUM1_counter=0;
+  1596  0604  01FD               	clrf	_SUM1_counter
+  1597                           
+  1598                           ;TCQ-V21.C: 889: ALL_SUM1=0;
+  1599  0605  01A0               	clrf	_ALL_SUM1
+  1600  0606  01A1               	clrf	_ALL_SUM1+1
+  1601  0607  01A2               	clrf	_ALL_SUM1+2
+  1602  0608  01A3               	clrf	_ALL_SUM1+3
+  1603  0609  2F08               	goto	l3726
+  1604  060A                     l3678:	
+  1605                           
+  1606                           ;TCQ-V21.C: 894: else if(SUM1_counter>=SUM1_num)
+  1607  060A  0869               	movf	_SUM1_num,w
+  1608  060B  027D               	subwf	_SUM1_counter,w
+  1609  060C  1C03               	skipc
+  1610  060D  2F08               	goto	l3726
+  1611                           
+  1612                           ;TCQ-V21.C: 895: {
+  1613                           ;TCQ-V21.C: 897: if(SUM0>SUM10)
+  1614  060E  0837               	movf	_SUM0+3,w
+  1615  060F  023F               	subwf	_SUM10+3,w
+  1616  0610  1D03               	skipz
+  1617  0611  2E1C               	goto	u1545
+  1618  0612  0836               	movf	_SUM0+2,w
+  1619  0613  023E               	subwf	_SUM10+2,w
+  1620  0614  1D03               	skipz
+  1621  0615  2E1C               	goto	u1545
+  1622  0616  0835               	movf	_SUM0+1,w
+  1623  0617  023D               	subwf	_SUM10+1,w
+  1624  0618  1D03               	skipz
+  1625  0619  2E1C               	goto	u1545
+  1626  061A  0834               	movf	_SUM0,w
+  1627  061B  023C               	subwf	_SUM10,w
+  1628  061C                     u1545:	
+  1629  061C  1803               	skipnc
+  1630  061D  2E2B               	goto	l3686
+  1631                           
+  1632                           ;TCQ-V21.C: 898: {
+  1633                           ;TCQ-V21.C: 899: if(SUM1_num>16)SUM0=SUM10;
+  1634  061E  3011               	movlw	17
+  1635  061F  0269               	subwf	_SUM1_num,w
+  1636  0620  1C03               	skipc
+  1637  0621  2F04               	goto	l1284
+  1638  0622  083F               	movf	_SUM10+3,w
+  1639  0623  00B7               	movwf	_SUM0+3
+  1640  0624  083E               	movf	_SUM10+2,w
+  1641  0625  00B6               	movwf	_SUM0+2
+  1642  0626  083D               	movf	_SUM10+1,w
+  1643  0627  00B5               	movwf	_SUM0+1
+  1644  0628  083C               	movf	_SUM10,w
+  1645  0629  00B4               	movwf	_SUM0
+  1646                           
+  1647                           ;TCQ-V21.C: 900: }
+  1648  062A  2F04               	goto	l1284
+  1649  062B                     l3686:	
+  1650                           
+  1651                           ;TCQ-V21.C: 901: else if(SUM10>(SUM0+2000))
+  1652  062B  30D0               	movlw	208
+  1653  062C  00E4               	movwf	??_main
+  1654  062D  3007               	movlw	7
+  1655  062E  00E5               	movwf	??_main+1
+  1656  062F  01E6               	clrf	??_main+2
+  1657  0630  01E7               	clrf	??_main+3
+  1658  0631  0834               	movf	_SUM0,w
+  1659  0632  07E4               	addwf	??_main,f
+  1660  0633  0835               	movf	_SUM0+1,w
+  1661  0634  1803               	skipnc
+  1662  0635  0F35               	incfsz	_SUM0+1,w
+  1663  0636  07E5               	addwf	??_main+1,f
+  1664  0637  0836               	movf	_SUM0+2,w
+  1665  0638  1803               	skipnc
+  1666  0639  0F36               	incfsz	_SUM0+2,w
+  1667  063A  07E6               	addwf	??_main+2,f
+  1668  063B  0837               	movf	_SUM0+3,w
+  1669  063C  1803               	skipnc
+  1670  063D  0A37               	incf	_SUM0+3,w
+  1671  063E  07E7               	addwf	??_main+3,f
+  1672  063F  083F               	movf	_SUM10+3,w
+  1673  0640  0267               	subwf	??_main+3,w
+  1674  0641  1D03               	skipz
+  1675  0642  2E4D               	goto	u1575
+  1676  0643  083E               	movf	_SUM10+2,w
+  1677  0644  0266               	subwf	??_main+2,w
+  1678  0645  1D03               	skipz
+  1679  0646  2E4D               	goto	u1575
+  1680  0647  083D               	movf	_SUM10+1,w
+  1681  0648  0265               	subwf	??_main+1,w
+  1682  0649  1D03               	skipz
+  1683  064A  2E4D               	goto	u1575
+  1684  064B  083C               	movf	_SUM10,w
+  1685  064C  0264               	subwf	??_main,w
+  1686  064D                     u1575:	
+  1687  064D  1803               	skipnc
+  1688  064E  2ECD               	goto	l3712
+  1689                           
+  1690                           ;TCQ-V21.C: 902: {
+  1691                           ;TCQ-V21.C: 903: SUM=SUM10-SUM0;
+  1692  064F  083F               	movf	_SUM10+3,w
+  1693  0650  00B3               	movwf	_SUM+3
+  1694  0651  083E               	movf	_SUM10+2,w
+  1695  0652  00B2               	movwf	_SUM+2
+  1696  0653  083D               	movf	_SUM10+1,w
+  1697  0654  00B1               	movwf	_SUM+1
+  1698  0655  083C               	movf	_SUM10,w
+  1699  0656  00B0               	movwf	_SUM
+  1700  0657  0834               	movf	_SUM0,w
+  1701  0658  02B0               	subwf	_SUM,f
+  1702  0659  0835               	movf	_SUM0+1,w
+  1703  065A  1C03               	skipc
+  1704  065B  0F35               	incfsz	_SUM0+1,w
+  1705  065C  02B1               	subwf	_SUM+1,f
+  1706  065D  0836               	movf	_SUM0+2,w
+  1707  065E  1C03               	skipc
+  1708  065F  0F36               	incfsz	_SUM0+2,w
+  1709  0660  02B2               	subwf	_SUM+2,f
+  1710  0661  0837               	movf	_SUM0+3,w
+  1711  0662  1C03               	skipc
+  1712  0663  0F37               	incfsz	_SUM0+3,w
+  1713  0664  02B3               	subwf	_SUM+3,f
+  1714                           
+  1715                           ;TCQ-V21.C: 905: if((SUM10<2000000)&&(SUM<100000))
+  1716  0665  3000               	movlw	0
+  1717  0666  023F               	subwf	_SUM10+3,w
+  1718  0667  1D03               	skipz
+  1719  0668  2E73               	goto	u1585
+  1720  0669  301E               	movlw	30
+  1721  066A  023E               	subwf	_SUM10+2,w
+  1722  066B  1D03               	skipz
+  1723  066C  2E73               	goto	u1585
+  1724  066D  3084               	movlw	132
+  1725  066E  023D               	subwf	_SUM10+1,w
+  1726  066F  1D03               	skipz
+  1727  0670  2E73               	goto	u1585
+  1728  0671  3080               	movlw	128
+  1729  0672  023C               	subwf	_SUM10,w
+  1730  0673                     u1585:	
+  1731  0673  1803               	skipnc
+  1732  0674  2F04               	goto	l1284
+  1733  0675  3000               	movlw	0
+  1734  0676  0233               	subwf	_SUM+3,w
+  1735  0677  1D03               	skipz
+  1736  0678  2E83               	goto	u1595
+  1737  0679  3001               	movlw	1
+  1738  067A  0232               	subwf	_SUM+2,w
+  1739  067B  1D03               	skipz
+  1740  067C  2E83               	goto	u1595
+  1741  067D  3086               	movlw	134
+  1742  067E  0231               	subwf	_SUM+1,w
+  1743  067F  1D03               	skipz
+  1744  0680  2E83               	goto	u1595
+  1745  0681  30A0               	movlw	160
+  1746  0682  0230               	subwf	_SUM,w
+  1747  0683                     u1595:	
+  1748                           
+  1749                           ;TCQ-V21.C: 907: {
+  1750                           ;TCQ-V21.C: 908: if(SUM1_num==32)
+  1751  0683  0869               	movf	_SUM1_num,w
+  1752  0684  1803               	skipnc
+  1753  0685  2F05               	goto	L5
+  1754  0686  3A20               	xorlw	32
+  1755  0687  1D03               	skipz
+  1756  0688  2EA3               	goto	l3698
+  1757  0689                     l3694:	
+  1758                           
+  1759                           ;TCQ-V21.C: 909: {
+  1760                           ;TCQ-V21.C: 910: SUM0+=SUM10;
+  1761  0689  083C               	movf	_SUM10,w
+  1762  068A  07B4               	addwf	_SUM0,f
+  1763  068B  083D               	movf	_SUM10+1,w
+  1764  068C  1103               	clrz
+  1765  068D  1803               	skipnc
+  1766  068E  3E01               	addlw	1
+  1767  068F  1D03               	btfss	3,2
+  1768  0690  07B5               	addwf	_SUM0+1,f
+  1769  0691  083E               	movf	_SUM10+2,w
+  1770  0692  1103               	clrz
+  1771  0693  1803               	skipnc
+  1772  0694  3E01               	addlw	1
+  1773  0695  1D03               	btfss	3,2
+  1774  0696  07B6               	addwf	_SUM0+2,f
+  1775  0697  083F               	movf	_SUM10+3,w
+  1776  0698  1103               	clrz
+  1777  0699  1803               	skipnc
+  1778  069A  3E01               	addlw	1
+  1779  069B  1D03               	btfss	3,2
+  1780  069C  07B7               	addwf	_SUM0+3,f
+  1781                           
+  1782                           ;TCQ-V21.C: 911: SUM0/=2;
+  1783  069D  1003               	clrc
+  1784  069E  0CB7               	rrf	_SUM0+3,f
+  1785  069F  0CB6               	rrf	_SUM0+2,f
+  1786  06A0  0CB5               	rrf	_SUM0+1,f
+  1787  06A1  0CB4               	rrf	_SUM0,f
+  1788                           
+  1789                           ;TCQ-V21.C: 912: }
+  1790  06A2  2F04               	goto	l1284
+  1791  06A3                     l3698:	
+  1792                           
+  1793                           ;TCQ-V21.C: 913: else
+  1794                           ;TCQ-V21.C: 914: {
+  1795                           ;TCQ-V21.C: 915: if(SUM>50000)SUM1_num=16;
+  1796  06A3  3000               	movlw	0
+  1797  06A4  0233               	subwf	_SUM+3,w
+  1798  06A5  1D03               	skipz
+  1799  06A6  2EB1               	goto	u1625
+  1800  06A7  3000               	movlw	0
+  1801  06A8  0232               	subwf	_SUM+2,w
+  1802  06A9  1D03               	skipz
+  1803  06AA  2EB1               	goto	u1625
+  1804  06AB  30C3               	movlw	195
+  1805  06AC  0231               	subwf	_SUM+1,w
+  1806  06AD  1D03               	skipz
+  1807  06AE  2EB1               	goto	u1625
+  1808  06AF  3051               	movlw	81
+  1809  06B0  0230               	subwf	_SUM,w
+  1810  06B1                     u1625:	
+  1811  06B1  1C03               	skipc
+  1812  06B2  2EB5               	goto	l3702
+  1813  06B3  3010               	movlw	16
+  1814  06B4  2EC8               	goto	L2
+  1815  06B5                     l3702:	
+  1816                           
+  1817                           ;TCQ-V21.C: 916: else if(SUM>20000)SUM1_num=8;
+  1818  06B5  3000               	movlw	0
+  1819  06B6  0233               	subwf	_SUM+3,w
+  1820  06B7  1D03               	skipz
+  1821  06B8  2EC3               	goto	u1635
+  1822  06B9  3000               	movlw	0
+  1823  06BA  0232               	subwf	_SUM+2,w
+  1824  06BB  1D03               	skipz
+  1825  06BC  2EC3               	goto	u1635
+  1826  06BD  304E               	movlw	78
+  1827  06BE  0231               	subwf	_SUM+1,w
+  1828  06BF  1D03               	skipz
+  1829  06C0  2EC3               	goto	u1635
+  1830  06C1  3021               	movlw	33
+  1831  06C2  0230               	subwf	_SUM,w
+  1832  06C3                     u1635:	
+  1833  06C3  1C03               	skipc
+  1834  06C4  2EC7               	goto	l3706
+  1835  06C5  3008               	movlw	8
+  1836  06C6  2EC8               	goto	L2
+  1837  06C7                     l3706:	
+  1838                           
+  1839                           ;TCQ-V21.C: 917: else SUM1_num=4;
+  1840  06C7  3004               	movlw	4
+  1841  06C8                     L2:	
+  1842  06C8  00E9               	movwf	_SUM1_num
+  1843                           
+  1844                           ;TCQ-V21.C: 918: if(SUM1_counter>=SUM1_num)
+  1845  06C9  027D               	subwf	_SUM1_counter,w
+  1846  06CA  1803               	btfsc	3,0
+  1847  06CB  2E89               	goto	l3694
+  1848  06CC  2F04               	goto	l1284
+  1849  06CD                     l3712:	
+  1850                           
+  1851                           ;TCQ-V21.C: 926: else if((LIGHT>0)&&(TH==12000))
+  1852  06CD  0855               	movf	_LIGHT+1,w
+  1853  06CE  0454               	iorwf	_LIGHT,w
+  1854  06CF  1903               	skipnz
+  1855  06D0  2F04               	goto	l1284
+  1856  06D1  0845               	movf	_TH+1,w
+  1857  06D2  3A2E               	xorlw	46
+  1858  06D3  30E0               	movlw	224
+  1859  06D4  1903               	skipnz
+  1860  06D5  0644               	xorwf	_TH,w
+  1861  06D6  0446               	iorwf	_TH+2,w
+  1862  06D7  0447               	iorwf	_TH+3,w
+  1863  06D8  1D03               	skipz
+  1864  06D9  2F04               	goto	l1284
+  1865                           
+  1866                           ;TCQ-V21.C: 927: {
+  1867                           ;TCQ-V21.C: 928: SUM=SUM10-SUM0;
+  1868  06DA  083F               	movf	_SUM10+3,w
+  1869  06DB  00B3               	movwf	_SUM+3
+  1870  06DC  083E               	movf	_SUM10+2,w
+  1871  06DD  00B2               	movwf	_SUM+2
+  1872  06DE  083D               	movf	_SUM10+1,w
+  1873  06DF  00B1               	movwf	_SUM+1
+  1874  06E0  083C               	movf	_SUM10,w
+  1875  06E1  00B0               	movwf	_SUM
+  1876  06E2  0834               	movf	_SUM0,w
+  1877  06E3  02B0               	subwf	_SUM,f
+  1878  06E4  0835               	movf	_SUM0+1,w
+  1879  06E5  1C03               	skipc
+  1880  06E6  0F35               	incfsz	_SUM0+1,w
+  1881  06E7  02B1               	subwf	_SUM+1,f
+  1882  06E8  0836               	movf	_SUM0+2,w
+  1883  06E9  1C03               	skipc
+  1884  06EA  0F36               	incfsz	_SUM0+2,w
+  1885  06EB  02B2               	subwf	_SUM+2,f
+  1886  06EC  0837               	movf	_SUM0+3,w
+  1887  06ED  1C03               	skipc
+  1888  06EE  0F37               	incfsz	_SUM0+3,w
+  1889  06EF  02B3               	subwf	_SUM+3,f
+  1890                           
+  1891                           ;TCQ-V21.C: 929: TH+=SUM;
+  1892  06F0  0830               	movf	_SUM,w
+  1893  06F1  07C4               	addwf	_TH,f
+  1894  06F2  0831               	movf	_SUM+1,w
+  1895  06F3  1103               	clrz
+  1896  06F4  1803               	skipnc
+  1897  06F5  3E01               	addlw	1
+  1898  06F6  1D03               	btfss	3,2
+  1899  06F7  07C5               	addwf	_TH+1,f
+  1900  06F8  0832               	movf	_SUM+2,w
+  1901  06F9  1103               	clrz
+  1902  06FA  1803               	skipnc
+  1903  06FB  3E01               	addlw	1
+  1904  06FC  1D03               	btfss	3,2
+  1905  06FD  07C6               	addwf	_TH+2,f
+  1906  06FE  0833               	movf	_SUM+3,w
+  1907  06FF  1103               	clrz
+  1908  0700  1803               	skipnc
+  1909  0701  3E01               	addlw	1
+  1910  0702  1D03               	btfss	3,2
+  1911  0703  07C7               	addwf	_TH+3,f
+  1912  0704                     l1284:	
+  1913                           
+  1914                           ;TCQ-V21.C: 930: }
+  1915                           ;TCQ-V21.C: 932: if(SUM1_counter>=SUM1_num)
+  1916  0704  0869               	movf	_SUM1_num,w
+  1917  0705                     L5:	
+  1918  0705  027D               	subwf	_SUM1_counter,w
+  1919  0706  1803               	btfsc	3,0
+  1920  0707  2E04               	goto	l3674
+  1921  0708                     l3726:	
+  1922                           ;TCQ-V21.C: 936: }
+  1923                           ;TCQ-V21.C: 937: }
+  1924                           ;TCQ-V21.C: 938: }
+  1925                           
+  1926                           
+  1927                           ;TCQ-V21.C: 943: }
+  1928                           ;TCQ-V21.C: 950: if(stop_times>0)
+  1929  0708  0863               	movf	_stop_times,w
+  1930  0709  1903               	btfsc	3,2
+  1931  070A  2F0D               	goto	l3730
+  1932                           
+  1933                           ;TCQ-V21.C: 951: {
+  1934                           ;TCQ-V21.C: 952: stop_times--;
+  1935  070B  03E3               	decf	_stop_times,f
+  1936                           
+  1937                           ;TCQ-V21.C: 953: }
+  1938  070C  2FB3               	goto	l3760
+  1939  070D                     l3730:	
+  1940                           
+  1941                           ;TCQ-V21.C: 954: else
+  1942                           ;TCQ-V21.C: 955: {
+  1943                           ;TCQ-V21.C: 957: if(start_times>0)
+  1944  070D  0859               	movf	_start_times+1,w
+  1945  070E  0458               	iorwf	_start_times,w
+  1946  070F  1903               	skipnz
+  1947  0710  2F7D               	goto	l3748
+  1948                           
+  1949                           ;TCQ-V21.C: 958: {
+  1950                           ;TCQ-V21.C: 959: if(start_times<70)
+  1951  0711  3000               	movlw	0
+  1952  0712  0259               	subwf	_start_times+1,w
+  1953  0713  3046               	movlw	70
+  1954  0714  1903               	skipnz
+  1955  0715  0258               	subwf	_start_times,w
+  1956  0716  1803               	skipnc
+  1957  0717  2F75               	goto	l3744
+  1958                           
+  1959                           ;TCQ-V21.C: 960: {
+  1960                           ;TCQ-V21.C: 961: start_times++;
+  1961  0718  0AD8               	incf	_start_times,f
+  1962  0719  1903               	skipnz
+  1963  071A  0AD9               	incf	_start_times+1,f
+  1964                           
+  1965                           ;TCQ-V21.C: 968: if(SUM0>1600000)
+  1966  071B  3000               	movlw	0
+  1967  071C  0237               	subwf	_SUM0+3,w
+  1968  071D  1D03               	skipz
+  1969  071E  2F29               	goto	u1725
+  1970  071F  3018               	movlw	24
+  1971  0720  0236               	subwf	_SUM0+2,w
+  1972  0721  1D03               	skipz
+  1973  0722  2F29               	goto	u1725
+  1974  0723  306A               	movlw	106
+  1975  0724  0235               	subwf	_SUM0+1,w
+  1976  0725  1D03               	skipz
+  1977  0726  2F29               	goto	u1725
+  1978  0727  3001               	movlw	1
+  1979  0728  0234               	subwf	_SUM0,w
+  1980  0729                     u1725:	
+  1981  0729  1C03               	skipc
+  1982  072A  2F33               	goto	l3740
+  1983                           
+  1984                           ;TCQ-V21.C: 969: {
+  1985                           ;TCQ-V21.C: 970: TH=400000;
+  1986  072B  3006               	movlw	6
+  1987  072C  01C7               	clrf	_TH+3
+  1988  072D  00C6               	movwf	_TH+2
+  1989  072E  301A               	movlw	26
+  1990  072F  00C5               	movwf	_TH+1
+  1991  0730  3080               	movlw	128
+  1992  0731  00C4               	movwf	_TH
+  1993                           
+  1994                           ;TCQ-V21.C: 971: }
+  1995  0732  2F7D               	goto	l3748
+  1996  0733                     l3740:	
+  1997                           
+  1998                           ;TCQ-V21.C: 972: else
+  1999                           ;TCQ-V21.C: 973: {
+  2000                           ;TCQ-V21.C: 974: SUM=SUM0+TH;
+  2001  0733  0837               	movf	_SUM0+3,w
+  2002  0734  00B3               	movwf	_SUM+3
+  2003  0735  0836               	movf	_SUM0+2,w
+  2004  0736  00B2               	movwf	_SUM+2
+  2005  0737  0835               	movf	_SUM0+1,w
+  2006  0738  00B1               	movwf	_SUM+1
+  2007  0739  0834               	movf	_SUM0,w
+  2008  073A  00B0               	movwf	_SUM
+  2009  073B  0844               	movf	_TH,w
+  2010  073C  07B0               	addwf	_SUM,f
+  2011  073D  0845               	movf	_TH+1,w
+  2012  073E  1103               	clrz
+  2013  073F  1803               	skipnc
+  2014  0740  3E01               	addlw	1
+  2015  0741  1D03               	btfss	3,2
+  2016  0742  07B1               	addwf	_SUM+1,f
+  2017  0743  0846               	movf	_TH+2,w
+  2018  0744  1103               	clrz
+  2019  0745  1803               	skipnc
+  2020  0746  3E01               	addlw	1
+  2021  0747  1D03               	btfss	3,2
+  2022  0748  07B2               	addwf	_SUM+2,f
+  2023  0749  0847               	movf	_TH+3,w
+  2024  074A  1103               	clrz
+  2025  074B  1803               	skipnc
+  2026  074C  3E01               	addlw	1
+  2027  074D  1D03               	btfss	3,2
+  2028  074E  07B3               	addwf	_SUM+3,f
+  2029                           
+  2030                           ;TCQ-V21.C: 975: if(SUM>2000000)
+  2031  074F  3000               	movlw	0
+  2032  0750  0233               	subwf	_SUM+3,w
+  2033  0751  1D03               	skipz
+  2034  0752  2F5D               	goto	u1745
+  2035  0753  301E               	movlw	30
+  2036  0754  0232               	subwf	_SUM+2,w
+  2037  0755  1D03               	skipz
+  2038  0756  2F5D               	goto	u1745
+  2039  0757  3084               	movlw	132
+  2040  0758  0231               	subwf	_SUM+1,w
+  2041  0759  1D03               	skipz
+  2042  075A  2F5D               	goto	u1745
+  2043  075B  3081               	movlw	129
+  2044  075C  0230               	subwf	_SUM,w
+  2045  075D                     u1745:	
+  2046  075D  1C03               	skipc
+  2047  075E  2F7D               	goto	l3748
+  2048                           
+  2049                           ;TCQ-V21.C: 976: {
+  2050                           ;TCQ-V21.C: 977: TH=2000000-SUM0;
+  2051  075F  301E               	movlw	30
+  2052  0760  01C7               	clrf	_TH+3
+  2053  0761  00C6               	movwf	_TH+2
+  2054  0762  3084               	movlw	132
+  2055  0763  00C5               	movwf	_TH+1
+  2056  0764  3080               	movlw	128
+  2057  0765  00C4               	movwf	_TH
+  2058  0766  0834               	movf	_SUM0,w
+  2059  0767  02C4               	subwf	_TH,f
+  2060  0768  0835               	movf	_SUM0+1,w
+  2061  0769  1C03               	skipc
+  2062  076A  0F35               	incfsz	_SUM0+1,w
+  2063  076B  02C5               	subwf	_TH+1,f
+  2064  076C  0836               	movf	_SUM0+2,w
+  2065  076D  1C03               	skipc
+  2066  076E  0F36               	incfsz	_SUM0+2,w
+  2067  076F  02C6               	subwf	_TH+2,f
+  2068  0770  0837               	movf	_SUM0+3,w
+  2069  0771  1C03               	skipc
+  2070  0772  0F37               	incfsz	_SUM0+3,w
+  2071  0773  02C7               	subwf	_TH+3,f
+  2072  0774  2F7D               	goto	l3748
+  2073  0775                     l3744:	
+  2074                           
+  2075                           ;TCQ-V21.C: 983: else
+  2076                           ;TCQ-V21.C: 984: {
+  2077                           ;TCQ-V21.C: 985: TH=12000;
+  2078  0775  302E               	movlw	46
+  2079  0776  01C7               	clrf	_TH+3
+  2080  0777  01C6               	clrf	_TH+2
+  2081  0778  00C5               	movwf	_TH+1
+  2082  0779  30E0               	movlw	224
+  2083  077A  00C4               	movwf	_TH
+  2084                           
+  2085                           ;TCQ-V21.C: 986: start_times=0;
+  2086  077B  01D8               	clrf	_start_times
+  2087  077C  01D9               	clrf	_start_times+1
+  2088  077D                     l3748:	
+  2089                           
+  2090                           ;TCQ-V21.C: 992: {
+  2091                           ;TCQ-V21.C: 997: if((light_ad<=255)||(start_times>0))
+  2092  077D  0834               	movf	_SUM0,w
+  2093  077E  0744               	addwf	_TH,w
+  2094  077F  00E4               	movwf	??_main
+  2095  0780  3000               	movlw	0
+  2096  0781  1803               	skipnc
+  2097  0782  3001               	movlw	1
+  2098  0783  0735               	addwf	_SUM0+1,w
+  2099  0784  01E6               	clrf	??_main+2
+  2100  0785  1803               	skipnc
+  2101  0786  0AE6               	incf	??_main+2,f
+  2102  0787  0745               	addwf	_TH+1,w
+  2103  0788  00E5               	movwf	??_main+1
+  2104  0789  1803               	skipnc
+  2105  078A  0AE6               	incf	??_main+2,f
+  2106  078B  0836               	movf	_SUM0+2,w
+  2107  078C  0766               	addwf	??_main+2,w
+  2108  078D  01E7               	clrf	??_main+3
+  2109  078E  1803               	skipnc
+  2110  078F  0AE7               	incf	??_main+3,f
+  2111  0790  0746               	addwf	_TH+2,w
+  2112  0791  00E6               	movwf	??_main+2
+  2113  0792  1803               	skipnc
+  2114  0793  0AE7               	incf	??_main+3,f
+  2115  0794  0837               	movf	_SUM0+3,w
+  2116  0795  0767               	addwf	??_main+3,w
+  2117  0796  0747               	addwf	_TH+3,w
+  2118  0797  00E7               	movwf	??_main+3
+  2119  0798  083B               	movf	_SUM1+3,w
+  2120  0799  0267               	subwf	??_main+3,w
+  2121  079A  1D03               	skipz
+  2122  079B  2FA6               	goto	u1755
+  2123  079C  083A               	movf	_SUM1+2,w
+  2124  079D  0266               	subwf	??_main+2,w
+  2125  079E  1D03               	skipz
+  2126  079F  2FA6               	goto	u1755
+  2127  07A0  0839               	movf	_SUM1+1,w
+  2128  07A1  0265               	subwf	??_main+1,w
+  2129  07A2  1D03               	skipz
+  2130  07A3  2FA6               	goto	u1755
+  2131  07A4  0838               	movf	_SUM1,w
+  2132  07A5  0264               	subwf	??_main,w
+  2133  07A6                     u1755:	
+  2134  07A6  1803               	skipnc
+  2135  07A7  2FB3               	goto	l3760
+  2136                           
+  2137                           ;TCQ-V21.C: 998: {
+  2138                           ;TCQ-V21.C: 999: send_data(0xaa);
+  2139  07A8  30AA               	movlw	170
+  2140  07A9  20F9               	fcall	_send_data
+  2141  07AA  3004               	movlw	4
+  2142                           
+  2143                           ;TCQ-V21.C: 1011: wave=1;
+  2144  07AB  1283               	bcf	3,5	;RP0=0, select bank0
+  2145  07AC  01D4               	clrf	_LIGHT
+  2146  07AD  0AD4               	incf	_LIGHT,f
+  2147  07AE  01D5               	clrf	_LIGHT+1
+  2148                           
+  2149                           ;TCQ-V21.C: 1012: PC0=0;
+  2150  07AF  1007               	bcf	7,0
+  2151                           
+  2152                           ;TCQ-V21.C: 1014: SUM1_num=4;
+  2153  07B0  00E9               	movwf	_SUM1_num
+  2154                           
+  2155                           ;TCQ-V21.C: 1016: send_data(0xaa);
+  2156  07B1  30AA               	movlw	170
+  2157  07B2  20F9               	fcall	_send_data
+  2158  07B3                     l3760:	
+  2159                           
+  2160                           ;TCQ-V21.C: 1018: }
+  2161                           ;TCQ-V21.C: 1019: }
+  2162                           ;TCQ-V21.C: 1029: }
+  2163                           ;TCQ-V21.C: 1034: }
+  2164                           ;TCQ-V21.C: 1036: SUM=0;
+  2165  07B3  1283               	bcf	3,5	;RP0=0, select bank0
+  2166  07B4  01B0               	clrf	_SUM
+  2167  07B5  01B1               	clrf	_SUM+1
+  2168  07B6  01B2               	clrf	_SUM+2
+  2169  07B7  01B3               	clrf	_SUM+3
+  2170  07B8                     l3762:	
+  2171                           
+  2172                           ;TCQ-V21.C: 1038: }
+  2173                           ;TCQ-V21.C: 1040: if((times&0x00ff)==0)
+  2174  07B8  08DC               	movf	_times,f
+  2175  07B9  1D03               	skipz
+  2176  07BA  2B2D               	goto	l3540
+  2177                           
+  2178                           ;TCQ-V21.C: 1041: {
+  2179                           ;TCQ-V21.C: 1042: if(times==0)SUM2=SUM1;
+  2180  07BB  085D               	movf	_times+1,w
+  2181  07BC  045C               	iorwf	_times,w
+  2182  07BD  1D03               	skipz
+  2183  07BE  2FC0               	goto	l3768
+  2184  07BF  0064               	clrwdt	;#
+  2185  07C0                     l3768:	
+  2186                           
+  2187                           ;TCQ-V21.C: 1050: DelayUs(228);
+  2188  07C0  30E4               	movlw	228
+  2189  07C1  20A1               	fcall	_DelayUs
+  2190                           
+  2191                           ;TCQ-V21.C: 1170: if(times==0)
+  2192  07C2  1283               	bcf	3,5	;RP0=0, select bank0
+  2193  07C3  1303               	bcf	3,6	;RP1=0, select bank0
+  2194  07C4  085D               	movf	_times+1,w
+  2195  07C5  045C               	iorwf	_times,w
+  2196  07C6  1D03               	skipz
+  2197  07C7  2B2D               	goto	l3540
+  2198                           
+  2199                           ;TCQ-V21.C: 1171: {
+  2200                           ;TCQ-V21.C: 1172: SUM1=0;
+  2201  07C8  01B8               	clrf	_SUM1
+  2202  07C9  01B9               	clrf	_SUM1+1
+  2203  07CA  01BA               	clrf	_SUM1+2
+  2204  07CB  01BB               	clrf	_SUM1+3
+  2205                           
+  2206                           ;TCQ-V21.C: 1174: if(LIGHT>0)
+  2207  07CC  0855               	movf	_LIGHT+1,w
+  2208  07CD  0454               	iorwf	_LIGHT,w
+  2209  07CE  1903               	skipnz
+  2210  07CF  2B2D               	goto	l3540
+  2211                           
+  2212                           ;TCQ-V21.C: 1175: {
+  2213                           ;TCQ-V21.C: 1176: LIGHT++;
+  2214  07D0  0AD4               	incf	_LIGHT,f
+  2215  07D1  1903               	skipnz
+  2216  07D2  0AD5               	incf	_LIGHT+1,f
+  2217                           
+  2218                           ;TCQ-V21.C: 1177: if(LIGHT>15)
+  2219  07D3  3000               	movlw	0
+  2220  07D4  0255               	subwf	_LIGHT+1,w
+  2221  07D5  3010               	movlw	16
+  2222  07D6  1903               	skipnz
+  2223  07D7  0254               	subwf	_LIGHT,w
+  2224  07D8  1C03               	skipc
+  2225  07D9  2B2D               	goto	l3540
+  2226  07DA  3004               	movlw	4
+  2227                           
+  2228                           ;TCQ-V21.C: 1178: {
+  2229                           ;TCQ-V21.C: 1179: LIGHT=0;
+  2230  07DB  01D4               	clrf	_LIGHT
+  2231  07DC  01D5               	clrf	_LIGHT+1
+  2232                           
+  2233                           ;TCQ-V21.C: 1205: PC0=1;
+  2234                           
+  2235                           ;TCQ-V21.C: 1181: }
+  2236                           ;TCQ-V21.C: 1182: }
+  2237                           ;TCQ-V21.C: 1183: }
+  2238                           ;TCQ-V21.C: 1185: }
+  2239                           ;TCQ-V21.C: 1201: }
+  2240                           ;TCQ-V21.C: 1204: wave=0;
+  2241  07DD  1407               	bsf	7,0
+  2242                           
+  2243                           ;TCQ-V21.C: 1206: delay_sub(4);
+  2244  07DE  20D1               	fcall	_delay_sub
+  2245  07DF  3020               	movlw	32
+  2246                           
+  2247                           ;TCQ-V21.C: 1218: SUM=0;
+  2248  07E0  1283               	bcf	3,5	;RP0=0, select bank0
+  2249  07E1  1303               	bcf	3,6	;RP1=0, select bank0
+  2250  07E2  01B0               	clrf	_SUM
+  2251  07E3  01B1               	clrf	_SUM+1
+  2252  07E4  01B2               	clrf	_SUM+2
+  2253  07E5  01B3               	clrf	_SUM+3
+  2254                           
+  2255                           ;TCQ-V21.C: 1219: SUM1=0;
+  2256  07E6  01B8               	clrf	_SUM1
+  2257  07E7  01B9               	clrf	_SUM1+1
+  2258  07E8  01BA               	clrf	_SUM1+2
+  2259  07E9  01BB               	clrf	_SUM1+3
+  2260                           
+  2261                           ;TCQ-V21.C: 1221: SUM16=0;
+  2262  07EA  01DC               	clrf	_times
+  2263  07EB  01DD               	clrf	_times+1
+  2264                           
+  2265                           ;TCQ-V21.C: 1222: calc_average_times=0;
+  2266  07EC  01DE               	clrf	_calc_average_times
+  2267                           
+  2268                           ;TCQ-V21.C: 1223: SUM1_num=32;
+  2269  07ED  00E9               	movwf	_SUM1_num
+  2270                           
+  2271                           ;TCQ-V21.C: 1225: stop_times=2;
+  2272  07EE  3002               	movlw	2
+  2273  07EF  00E3               	movwf	_stop_times
+  2274                           
+  2275                           ;TCQ-V21.C: 1227: TH=12000;
+  2276  07F0  302E               	movlw	46
+  2277  07F1  01C7               	clrf	_TH+3
+  2278  07F2  01C6               	clrf	_TH+2
+  2279  07F3  00C5               	movwf	_TH+1
+  2280  07F4  30E0               	movlw	224
+  2281  07F5  00C4               	movwf	_TH
+  2282  07F6  30DD               	movlw	221
+  2283                           
+  2284                           ;TCQ-V21.C: 1229: SUM1_counter=0;
+  2285  07F7  01FD               	clrf	_SUM1_counter
+  2286                           
+  2287                           ;TCQ-V21.C: 1230: ALL_SUM1=0;
+  2288  07F8  01A0               	clrf	_ALL_SUM1
+  2289  07F9  01A1               	clrf	_ALL_SUM1+1
+  2290  07FA  01A2               	clrf	_ALL_SUM1+2
+  2291  07FB  01A3               	clrf	_ALL_SUM1+3
+  2292                           
+  2293                           ;TCQ-V21.C: 1232: send_data(0xdd);
+  2294  07FC  20F9               	fcall	_send_data
+  2295                           
+  2296                           ;TCQ-V21.C: 1233: send_data(0xdd);
+  2297  07FD  30DD               	movlw	221
+  2298  07FE  20F9               	fcall	_send_data
+  2299  07FF  2B2D               	goto	l3540
+  2300  0800                     __end_of_main:	
+  2301                           
+  2302                           	psect	text318
+  2303  00BB                     __ptext318:	
+  2304 ;; =============== function _main ends ============
+  2305                           
+  2306                           
+  2307 ;; *************** function _CS1237_Power_Down *****************
+  2308 ;; Defined at:
+  2309 ;;		line 157 in file "TCQ-V21.C"
+  2310 ;; Parameters:    Size  Location     Type
+  2311 ;;		None
+  2312 ;; Auto vars:     Size  Location     Type
+  2313 ;;		None
+  2314 ;; Return value:  Size  Location     Type
+  2315 ;;		None               void
+  2316 ;; Registers used:
+  2317 ;;		wreg, status,2, status,0, pclath, cstack
+  2318 ;; Tracked objects:
+  2319 ;;		On entry : 17F/20
+  2320 ;;		On exit  : 0/0
+  2321 ;;		Unchanged: FFE00/0
+  2322 ;; Data sizes:     COMMON   BANK0   BANK1
+  2323 ;;      Params:         0       0       0
+  2324 ;;      Locals:         0       0       0
+  2325 ;;      Temps:          0       0       0
+  2326 ;;      Totals:         0       0       0
+  2327 ;;Total ram usage:        0 bytes
+  2328 ;; Hardware stack levels used:    1
+  2329 ;; Hardware stack levels required when called:    2
+  2330 ;; This function calls:
+  2331 ;;		_delay_sub
+  2332 ;; This function is called by:
+  2333 ;;		_main
+  2334 ;; This function uses a non-reentrant model
+  2335 ;;
+  2336  00BB                     _CS1237_Power_Down:	
+  2337  00BB  3001               	movlw	1
+  2338                           
+  2339                           ;TCQ-V21.C: 159: PA6=1;
+  2340                           
+  2341                           ; Regs used in _CS1237_Power_Down: [wreg+status,2+status,0+pclath+cstack]
+  2342  00BC  1283               	bcf	3,5	;RP0=0, select bank0
+  2343  00BD  1705               	bsf	5,6
+  2344                           
+  2345                           ;TCQ-V21.C: 160: delay_sub(1);
+  2346  00BE  20D1               	fcall	_delay_sub
+  2347  00BF  3001               	movlw	1
+  2348                           
+  2349                           ;TCQ-V21.C: 162: PA6=1;
+  2350  00C0  1283               	bcf	3,5	;RP0=0, select bank0
+  2351  00C1  1303               	bcf	3,6	;RP1=0, select bank0
+  2352  00C2  1705               	bsf	5,6
+  2353  00C3  1705               	bsf	5,6
+  2354                           
+  2355                           ;TCQ-V21.C: 165: delay_sub(1);
+  2356  00C4  28D1               	ljmp	_delay_sub
+  2357  00C5                     __end_of_CS1237_Power_Down:	
+  2358                           
+  2359                           	psect	text319
+  2360  0149                     __ptext319:	
+  2361 ;; =============== function _CS1237_Power_Down ends ============
+  2362                           
+  2363                           
+  2364 ;; *************** function _Read_CS1237 *****************
+  2365 ;; Defined at:
+  2366 ;;		line 415 in file "TCQ-V21.C"
+  2367 ;; Parameters:    Size  Location     Type
+  2368 ;;		None
+  2369 ;; Auto vars:     Size  Location     Type
+  2370 ;;  dat             4    6[COMMON] long 
+  2371 ;;  i               1   10[COMMON] unsigned char 
+  2372 ;;  count_i         1    0        unsigned char 
+  2373 ;; Return value:  Size  Location     Type
+  2374 ;;                  4    2[COMMON] long 
+  2375 ;; Registers used:
+  2376 ;;		wreg, status,2, status,0, pclath, cstack
+  2377 ;; Tracked objects:
+  2378 ;;		On entry : 60/0
+  2379 ;;		On exit  : 60/0
+  2380 ;;		Unchanged: FFF9F/0
+  2381 ;; Data sizes:     COMMON   BANK0   BANK1
+  2382 ;;      Params:         4       0       0
+  2383 ;;      Locals:         5       0       0
+  2384 ;;      Temps:          0       0       0
+  2385 ;;      Totals:         9       0       0
+  2386 ;;Total ram usage:        9 bytes
+  2387 ;; Hardware stack levels used:    1
+  2388 ;; Hardware stack levels required when called:    1
+  2389 ;; This function calls:
+  2390 ;;		_DelayUs
+  2391 ;; This function is called by:
+  2392 ;;		_main
+  2393 ;; This function uses a non-reentrant model
+  2394 ;;
+  2395  0149                     _Read_CS1237:	
+  2396                           
+  2397                           ;TCQ-V21.C: 418: unsigned char count_i=0;
+  2398                           
+  2399                           ; Regs used in _Read_CS1237: [wreg+status,2+status,0+pclath+cstack]
+  2400  0149  01F6               	clrf	Read_CS1237@dat
+  2401  014A  01F7               	clrf	Read_CS1237@dat+1
+  2402  014B  01F8               	clrf	Read_CS1237@dat+2
+  2403  014C  01F9               	clrf	Read_CS1237@dat+3
+  2404                           
+  2405                           ;TCQ-V21.C: 420: PA6=0;
+  2406  014D  1305               	bcf	5,6
+  2407                           
+  2408                           ;TCQ-V21.C: 421: TRISC3=1;
+  2409  014E  1683               	bsf	3,5	;RP0=1, select bank1
+  2410  014F  1587               	bsf	7,3
+  2411  0150                     l1229:	
+  2412                           ;TCQ-V21.C: 426: if(count_i > 300)
+  2413                           
+  2414                           ;TCQ-V21.C: 422: while(PC3==1)
+  2415                           
+  2416  0150  1283               	bcf	3,5	;RP0=0, select bank0
+  2417  0151  1D87               	btfss	7,3
+  2418  0152  2956               	goto	l3444
+  2419                           
+  2420                           ;TCQ-V21.C: 425: count_i++;
+  2421  0153  3088               	movlw	136
+  2422  0154  20A1               	fcall	_DelayUs
+  2423  0155  2950               	goto	l1229
+  2424  0156                     l3444:	
+  2425                           
+  2426                           ;TCQ-V21.C: 433: }
+  2427                           ;TCQ-V21.C: 434: }
+  2428                           ;TCQ-V21.C: 436: for(i=0;i<24;i++)
+  2429  0156  01FA               	clrf	Read_CS1237@i
+  2430  0157                     l1234:	
+  2431  0157  3001               	movlw	1
+  2432                           
+  2433                           ;TCQ-V21.C: 437: {
+  2434                           ;TCQ-V21.C: 438: PA6=1;
+  2435  0158  1705               	bsf	5,6
+  2436                           
+  2437                           ;TCQ-V21.C: 439: DelayUs(1);
+  2438  0159  20A1               	fcall	_DelayUs
+  2439                           
+  2440                           ;TCQ-V21.C: 441: dat <<= 1;
+  2441  015A  1003               	clrc
+  2442  015B  0DF6               	rlf	Read_CS1237@dat,f
+  2443  015C  0DF7               	rlf	Read_CS1237@dat+1,f
+  2444  015D  0DF8               	rlf	Read_CS1237@dat+2,f
+  2445  015E  0DF9               	rlf	Read_CS1237@dat+3,f
+  2446                           
+  2447                           ;TCQ-V21.C: 442: if(PC3==1)
+  2448  015F  1D87               	btfss	7,3
+  2449  0160  2968               	goto	l3458
+  2450                           
+  2451                           ;TCQ-V21.C: 443: {
+  2452                           ;TCQ-V21.C: 444: dat ++;
+  2453  0161  0AF6               	incf	Read_CS1237@dat,f
+  2454  0162  1903               	skipnz
+  2455  0163  0AF7               	incf	Read_CS1237@dat+1,f
+  2456  0164  1903               	skipnz
+  2457  0165  0AF8               	incf	Read_CS1237@dat+2,f
+  2458  0166  1903               	skipnz
+  2459  0167  0AF9               	incf	Read_CS1237@dat+3,f
+  2460  0168                     l3458:	
+  2461  0168  3001               	movlw	1
+  2462                           
+  2463                           ;TCQ-V21.C: 445: }
+  2464                           ;TCQ-V21.C: 446: PA6=0;
+  2465  0169  1305               	bcf	5,6
+  2466                           
+  2467                           ;TCQ-V21.C: 447: DelayUs(1);
+  2468  016A  20A1               	fcall	_DelayUs
+  2469  016B  3018               	movlw	24
+  2470  016C  0AFA               	incf	Read_CS1237@i,f
+  2471  016D  027A               	subwf	Read_CS1237@i,w
+  2472  016E  1C03               	skipc
+  2473  016F  2957               	goto	l1234
+  2474                           
+  2475                           ;TCQ-V21.C: 448: }
+  2476                           ;TCQ-V21.C: 449: for(i=0;i<3;i++)
+  2477  0170  01FA               	clrf	Read_CS1237@i
+  2478  0171                     l1237:	
+  2479  0171  3001               	movlw	1
+  2480                           
+  2481                           ;TCQ-V21.C: 450: {
+  2482                           ;TCQ-V21.C: 451: PA6=1;DelayUs(1);PA6=0;DelayUs(1);
+  2483  0172  1705               	bsf	5,6
+  2484  0173  20A1               	fcall	_DelayUs
+  2485  0174  3001               	movlw	1
+  2486  0175  1305               	bcf	5,6
+  2487  0176  20A1               	fcall	_DelayUs
+  2488  0177  3003               	movlw	3
+  2489  0178  0AFA               	incf	Read_CS1237@i,f
+  2490  0179  027A               	subwf	Read_CS1237@i,w
+  2491  017A  1C03               	skipc
+  2492  017B  2971               	goto	l1237
+  2493                           
+  2494                           ;TCQ-V21.C: 452: }
+  2495                           ;TCQ-V21.C: 457: return dat;
+  2496  017C  0879               	movf	Read_CS1237@dat+3,w
+  2497  017D  00F5               	movwf	?_Read_CS1237+3
+  2498  017E  0878               	movf	Read_CS1237@dat+2,w
+  2499  017F  00F4               	movwf	?_Read_CS1237+2
+  2500  0180  0877               	movf	Read_CS1237@dat+1,w
+  2501  0181  00F3               	movwf	?_Read_CS1237+1
+  2502  0182  0876               	movf	Read_CS1237@dat,w
+  2503  0183  00F2               	movwf	?_Read_CS1237
+  2504  0184  0008               	return
+  2505  0185                     __end_of_Read_CS1237:	
+  2506                           
+  2507                           	psect	text320
+  2508  0247                     __ptext320:	
+  2509 ;; =============== function _Read_CS1237 ends ============
+  2510                           
+  2511                           
+  2512 ;; *************** function _Read_CON *****************
+  2513 ;; Defined at:
+  2514 ;;		line 356 in file "TCQ-V21.C"
+  2515 ;; Parameters:    Size  Location     Type
+  2516 ;;		None
+  2517 ;; Auto vars:     Size  Location     Type
+  2518 ;;  count_i         2    2[COMMON] unsigned short 
+  2519 ;;  i               1    5[COMMON] unsigned char 
+  2520 ;;  dat             1    4[COMMON] unsigned char 
+  2521 ;;  j               1    0        unsigned char 
+  2522 ;;  k               1    0        unsigned char 
+  2523 ;; Return value:  Size  Location     Type
+  2524 ;;                  1    wreg      unsigned char 
+  2525 ;; Registers used:
+  2526 ;;		wreg, status,2, status,0, pclath, cstack
+  2527 ;; Tracked objects:
+  2528 ;;		On entry : 60/0
+  2529 ;;		On exit  : 60/0
+  2530 ;;		Unchanged: FFF9F/0
+  2531 ;; Data sizes:     COMMON   BANK0   BANK1
+  2532 ;;      Params:         0       0       0
+  2533 ;;      Locals:         4       0       0
+  2534 ;;      Temps:          0       0       0
+  2535 ;;      Totals:         4       0       0
+  2536 ;;Total ram usage:        4 bytes
+  2537 ;; Hardware stack levels used:    1
+  2538 ;; Hardware stack levels required when called:    1
+  2539 ;; This function calls:
+  2540 ;;		_DelayUs
+  2541 ;; This function is called by:
+  2542 ;;		_main
+  2543 ;; This function uses a non-reentrant model
+  2544 ;;
+  2545  0247                     _Read_CON:	
+  2546                           
+  2547                           ;TCQ-V21.C: 360: unsigned char k=0,j=0;
+  2548                           
+  2549                           ; Regs used in _Read_CON: [wreg+status,2+status,0+pclath+cstack]
+  2550  0247  01F2               	clrf	Read_CON@count_i
+  2551  0248  01F3               	clrf	Read_CON@count_i+1
+  2552                           
+  2553                           ;TCQ-V21.C: 361: PA6=0;
+  2554  0249  1305               	bcf	5,6
+  2555                           
+  2556                           ;TCQ-V21.C: 362: TRISC3=1;
+  2557  024A  1683               	bsf	3,5	;RP0=1, select bank1
+  2558  024B  1587               	bsf	7,3
+  2559  024C                     l1217:	
+  2560                           ;TCQ-V21.C: 363: while(PC3 ==1)
+  2561                           
+  2562  024C  1283               	bcf	3,5	;RP0=0, select bank0
+  2563  024D  1D87               	btfss	7,3
+  2564  024E  2A62               	goto	l3344
+  2565                           
+  2566                           ;TCQ-V21.C: 364: {
+  2567                           ;TCQ-V21.C: 365: DelayUs(5000);
+  2568  024F  3088               	movlw	136
+  2569  0250  20A1               	fcall	_DelayUs
+  2570                           
+  2571                           ;TCQ-V21.C: 366: count_i++;
+  2572  0251  0AF2               	incf	Read_CON@count_i,f
+  2573  0252  1903               	skipnz
+  2574  0253  0AF3               	incf	Read_CON@count_i+1,f
+  2575                           
+  2576                           ;TCQ-V21.C: 367: if(count_i > 15000)
+  2577  0254  303A               	movlw	58
+  2578  0255  0273               	subwf	Read_CON@count_i+1,w
+  2579  0256  3099               	movlw	153
+  2580  0257  1903               	skipnz
+  2581  0258  0272               	subwf	Read_CON@count_i,w
+  2582  0259  1C03               	skipc
+  2583  025A  2A4C               	goto	l1217
+  2584  025B  30FF               	movlw	255
+  2585                           
+  2586                           ;TCQ-V21.C: 368: {
+  2587                           ;TCQ-V21.C: 369: PA6=1;
+  2588  025C  1705               	bsf	5,6
+  2589                           
+  2590                           ;TCQ-V21.C: 370: TRISC3=0;
+  2591  025D  1683               	bsf	3,5	;RP0=1, select bank1
+  2592  025E  1187               	bcf	7,3
+  2593                           
+  2594                           ;TCQ-V21.C: 371: PC3=1;
+  2595  025F  1283               	bcf	3,5	;RP0=0, select bank0
+  2596  0260  1587               	bsf	7,3
+  2597                           
+  2598                           ;TCQ-V21.C: 373: return 0XFF;
+  2599  0261  0008               	return
+  2600  0262                     l3344:	
+  2601  0262  3001               	movlw	1
+  2602                           
+  2603                           ;TCQ-V21.C: 374: }
+  2604                           ;TCQ-V21.C: 375: }
+  2605                           ;TCQ-V21.C: 376: for(i=0;i<29;i++)
+  2606  0263  01F5               	clrf	Read_CON@i
+  2607  0264                     L7:	
+  2608                           
+  2609                           ;TCQ-V21.C: 377: {
+  2610                           ;TCQ-V21.C: 378: PA6=1;DelayUs(1);PA6=0;DelayUs(1);
+  2611  0264  1705               	bsf	5,6
+  2612  0265  20A1               	fcall	_DelayUs
+  2613  0266  3001               	movlw	1
+  2614  0267  1305               	bcf	5,6
+  2615  0268  20A1               	fcall	_DelayUs
+  2616  0269  301D               	movlw	29
+  2617  026A  0AF5               	incf	Read_CON@i,f
+  2618  026B  0275               	subwf	Read_CON@i,w
+  2619  026C  3001               	movlw	1
+  2620  026D  1C03               	skipc
+  2621  026E  2A64               	goto	L7
+  2622                           
+  2623                           ;TCQ-V21.C: 379: }
+  2624                           ;TCQ-V21.C: 380: TRISC3=0;
+  2625  026F  1683               	bsf	3,5	;RP0=1, select bank1
+  2626  0270  1187               	bcf	7,3
+  2627                           
+  2628                           ;TCQ-V21.C: 381: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2629  0271  1283               	bcf	3,5	;RP0=0, select bank0
+  2630  0272  1705               	bsf	5,6
+  2631  0273  20A1               	fcall	_DelayUs
+  2632  0274  3001               	movlw	1
+  2633  0275  1587               	bsf	7,3
+  2634  0276  1305               	bcf	5,6
+  2635  0277  20A1               	fcall	_DelayUs
+  2636  0278  3001               	movlw	1
+  2637                           
+  2638                           ;TCQ-V21.C: 382: PA6=1;DelayUs(1);PC3=0;PA6=0;DelayUs(1);
+  2639  0279  1705               	bsf	5,6
+  2640  027A  20A1               	fcall	_DelayUs
+  2641  027B  3001               	movlw	1
+  2642  027C  1187               	bcf	7,3
+  2643  027D  1305               	bcf	5,6
+  2644  027E  20A1               	fcall	_DelayUs
+  2645  027F  3001               	movlw	1
+  2646                           
+  2647                           ;TCQ-V21.C: 383: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2648  0280  1705               	bsf	5,6
+  2649  0281  20A1               	fcall	_DelayUs
+  2650  0282  3001               	movlw	1
+  2651  0283  1587               	bsf	7,3
+  2652  0284  1305               	bcf	5,6
+  2653  0285  20A1               	fcall	_DelayUs
+  2654  0286  3001               	movlw	1
+  2655                           
+  2656                           ;TCQ-V21.C: 384: PA6=1;DelayUs(1);PC3=0;PA6=0;DelayUs(1);
+  2657  0287  1705               	bsf	5,6
+  2658  0288  20A1               	fcall	_DelayUs
+  2659  0289  3001               	movlw	1
+  2660  028A  1187               	bcf	7,3
+  2661  028B  1305               	bcf	5,6
+  2662  028C  20A1               	fcall	_DelayUs
+  2663  028D  3001               	movlw	1
+  2664                           
+  2665                           ;TCQ-V21.C: 385: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2666  028E  1705               	bsf	5,6
+  2667  028F  20A1               	fcall	_DelayUs
+  2668  0290  3001               	movlw	1
+  2669  0291  1587               	bsf	7,3
+  2670  0292  1305               	bcf	5,6
+  2671  0293  20A1               	fcall	_DelayUs
+  2672  0294  3001               	movlw	1
+  2673                           
+  2674                           ;TCQ-V21.C: 386: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2675  0295  1705               	bsf	5,6
+  2676  0296  20A1               	fcall	_DelayUs
+  2677  0297  3001               	movlw	1
+  2678  0298  1587               	bsf	7,3
+  2679  0299  1305               	bcf	5,6
+  2680  029A  20A1               	fcall	_DelayUs
+  2681  029B  3001               	movlw	1
+  2682                           
+  2683                           ;TCQ-V21.C: 387: PA6=1;DelayUs(1);PC3=0;PA6=0;DelayUs(1);
+  2684  029C  1705               	bsf	5,6
+  2685  029D  20A1               	fcall	_DelayUs
+  2686  029E  3001               	movlw	1
+  2687  029F  1187               	bcf	7,3
+  2688  02A0  1305               	bcf	5,6
+  2689  02A1  20A1               	fcall	_DelayUs
+  2690  02A2  3001               	movlw	1
+  2691                           
+  2692                           ;TCQ-V21.C: 388: PC3=1;
+  2693  02A3  1587               	bsf	7,3
+  2694  02A4  1705               	bsf	5,6
+  2695  02A5  20A1               	fcall	_DelayUs
+  2696  02A6  3001               	movlw	1
+  2697  02A7  1305               	bcf	5,6
+  2698  02A8  20A1               	fcall	_DelayUs
+  2699  02A9  3001               	movlw	1
+  2700                           
+  2701                           ;TCQ-V21.C: 390: dat=0;
+  2702  02AA  01F4               	clrf	Read_CON@dat
+  2703                           
+  2704                           ;TCQ-V21.C: 391: TRISC3=1;
+  2705  02AB  1683               	bsf	3,5	;RP0=1, select bank1
+  2706  02AC  1587               	bsf	7,3
+  2707                           
+  2708                           ;TCQ-V21.C: 392: for(i=0;i<8;i++)
+  2709  02AD  01F5               	clrf	Read_CON@i
+  2710                           
+  2711                           ;TCQ-V21.C: 393: {
+  2712                           ;TCQ-V21.C: 394: dat <<= 1;
+  2713  02AE  1003               	clrc
+  2714  02AF                     L8:	
+  2715  02AF  0DF4               	rlf	Read_CON@dat,f
+  2716                           
+  2717                           ;TCQ-V21.C: 395: PA6=1;DelayUs(1); PA6=0;DelayUs(1);
+  2718  02B0  1283               	bcf	3,5	;RP0=0, select bank0
+  2719  02B1  1705               	bsf	5,6
+  2720  02B2  20A1               	fcall	_DelayUs
+  2721  02B3  3001               	movlw	1
+  2722  02B4  1305               	bcf	5,6
+  2723  02B5  20A1               	fcall	_DelayUs
+  2724                           
+  2725                           ;TCQ-V21.C: 396: if(PC3 ==1)
+  2726  02B6  1987               	btfsc	7,3
+  2727                           
+  2728                           ;TCQ-V21.C: 398: dat++;
+  2729  02B7  0AF4               	incf	Read_CON@dat,f
+  2730  02B8  3008               	movlw	8
+  2731  02B9  0AF5               	incf	Read_CON@i,f
+  2732  02BA  0275               	subwf	Read_CON@i,w
+  2733  02BB  3001               	movlw	1
+  2734  02BC  1C03               	skipc
+  2735  02BD  2AAF               	goto	L8
+  2736                           
+  2737                           ;TCQ-V21.C: 402: }
+  2738                           ;TCQ-V21.C: 403: PA6=1;DelayUs(1);PA6=0;DelayUs(1);
+  2739  02BE  1705               	bsf	5,6
+  2740  02BF  20A1               	fcall	_DelayUs
+  2741  02C0  3001               	movlw	1
+  2742  02C1  1305               	bcf	5,6
+  2743  02C2  20A1               	fcall	_DelayUs
+  2744                           
+  2745                           ;TCQ-V21.C: 404: return dat;
+  2746  02C3  0874               	movf	Read_CON@dat,w
+  2747  02C4  0008               	return
+  2748  02C5                     __end_of_Read_CON:	
+  2749                           
+  2750                           	psect	text321
+  2751  01CD                     __ptext321:	
+  2752 ;; =============== function _Read_CON ends ============
+  2753                           
+  2754                           
+  2755 ;; *************** function _Con_CS1237 *****************
+  2756 ;; Defined at:
+  2757 ;;		line 302 in file "TCQ-V21.C"
+  2758 ;; Parameters:    Size  Location     Type
+  2759 ;;		None
+  2760 ;; Auto vars:     Size  Location     Type
+  2761 ;;  count_i         2    2[COMMON] unsigned short 
+  2762 ;;  i               1    5[COMMON] unsigned char 
+  2763 ;;  dat             1    4[COMMON] unsigned char 
+  2764 ;; Return value:  Size  Location     Type
+  2765 ;;		None               void
+  2766 ;; Registers used:
+  2767 ;;		wreg, status,2, status,0, pclath, cstack
+  2768 ;; Tracked objects:
+  2769 ;;		On entry : 0/20
+  2770 ;;		On exit  : 60/0
+  2771 ;;		Unchanged: FFF9F/0
+  2772 ;; Data sizes:     COMMON   BANK0   BANK1
+  2773 ;;      Params:         0       0       0
+  2774 ;;      Locals:         4       0       0
+  2775 ;;      Temps:          0       0       0
+  2776 ;;      Totals:         4       0       0
+  2777 ;;Total ram usage:        4 bytes
+  2778 ;; Hardware stack levels used:    1
+  2779 ;; Hardware stack levels required when called:    1
+  2780 ;; This function calls:
+  2781 ;;		_DelayUs
+  2782 ;; This function is called by:
+  2783 ;;		_main
+  2784 ;; This function uses a non-reentrant model
+  2785 ;;
+  2786  01CD                     _Con_CS1237:	
+  2787  01CD  303C               	movlw	60
+  2788                           
+  2789                           ;TCQ-V21.C: 303: unsigned char i;
+  2790                           ;TCQ-V21.C: 304: unsigned char dat;
+  2791                           ;TCQ-V21.C: 305: unsigned short count_i=0;
+  2792                           
+  2793                           ; Regs used in _Con_CS1237: [wreg+status,2+status,0+pclath+cstack]
+  2794  01CE  01F2               	clrf	Con_CS1237@count_i
+  2795  01CF  01F3               	clrf	Con_CS1237@count_i+1
+  2796                           
+  2797                           ;TCQ-V21.C: 312: dat = 0B00111100;
+  2798  01D0  00F4               	movwf	Con_CS1237@dat
+  2799                           
+  2800                           ;TCQ-V21.C: 313: PA6=0;
+  2801  01D1  1283               	bcf	3,5	;RP0=0, select bank0
+  2802  01D2  1303               	bcf	3,6	;RP1=0, select bank0
+  2803  01D3  1305               	bcf	5,6
+  2804  01D4                     l1204:	
+  2805                           ;TCQ-V21.C: 314: while(PC3 ==1)
+  2806                           
+  2807  01D4  1D87               	btfss	7,3
+  2808  01D5  29E8               	goto	l1208
+  2809                           
+  2810                           ;TCQ-V21.C: 315: {
+  2811                           ;TCQ-V21.C: 316: DelayUs(500);
+  2812  01D6  30F4               	movlw	244
+  2813  01D7  20A1               	fcall	_DelayUs
+  2814                           
+  2815                           ;TCQ-V21.C: 317: count_i++;
+  2816  01D8  0AF2               	incf	Con_CS1237@count_i,f
+  2817  01D9  1903               	skipnz
+  2818  01DA  0AF3               	incf	Con_CS1237@count_i+1,f
+  2819                           
+  2820                           ;TCQ-V21.C: 318: if(count_i > 15000)
+  2821  01DB  303A               	movlw	58
+  2822  01DC  0273               	subwf	Con_CS1237@count_i+1,w
+  2823  01DD  3099               	movlw	153
+  2824  01DE  1903               	skipnz
+  2825  01DF  0272               	subwf	Con_CS1237@count_i,w
+  2826  01E0  1C03               	skipc
+  2827  01E1  29D4               	goto	l1204
+  2828                           
+  2829                           ;TCQ-V21.C: 319: {
+  2830                           ;TCQ-V21.C: 320: PA6=1;
+  2831  01E2  1705               	bsf	5,6
+  2832                           
+  2833                           ;TCQ-V21.C: 321: TRISC3=0;
+  2834  01E3  1683               	bsf	3,5	;RP0=1, select bank1
+  2835  01E4  1187               	bcf	7,3
+  2836                           
+  2837                           ;TCQ-V21.C: 322: PC3=1;
+  2838  01E5  1283               	bcf	3,5	;RP0=0, select bank0
+  2839  01E6  1587               	bsf	7,3
+  2840                           
+  2841                           ;TCQ-V21.C: 324: return;
+  2842  01E7  0008               	return
+  2843  01E8                     l1208:	
+  2844  01E8  3001               	movlw	1
+  2845                           
+  2846                           ;TCQ-V21.C: 325: }
+  2847                           ;TCQ-V21.C: 326: }
+  2848                           ;TCQ-V21.C: 327: TRISC3=0;
+  2849  01E9  1683               	bsf	3,5	;RP0=1, select bank1
+  2850  01EA  1187               	bcf	7,3
+  2851                           
+  2852                           ;TCQ-V21.C: 328: for(i=0;i<29;i++)
+  2853  01EB  01F5               	clrf	Con_CS1237@i
+  2854  01EC                     L9:	
+  2855                           
+  2856                           ;TCQ-V21.C: 329: {
+  2857                           ;TCQ-V21.C: 330: PA6=1;DelayUs(1);PA6=0;DelayUs(1);
+  2858  01EC  1283               	bcf	3,5	;RP0=0, select bank0
+  2859  01ED  1705               	bsf	5,6
+  2860  01EE  20A1               	fcall	_DelayUs
+  2861  01EF  3001               	movlw	1
+  2862  01F0  1305               	bcf	5,6
+  2863  01F1  20A1               	fcall	_DelayUs
+  2864  01F2  301D               	movlw	29
+  2865  01F3  0AF5               	incf	Con_CS1237@i,f
+  2866  01F4  0275               	subwf	Con_CS1237@i,w
+  2867  01F5  3001               	movlw	1
+  2868  01F6  1C03               	skipc
+  2869  01F7  29EC               	goto	L9
+  2870                           
+  2871                           ;TCQ-V21.C: 331: }
+  2872                           ;TCQ-V21.C: 332: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2873  01F8  1705               	bsf	5,6
+  2874  01F9  20A1               	fcall	_DelayUs
+  2875  01FA  3001               	movlw	1
+  2876  01FB  1587               	bsf	7,3
+  2877  01FC  1305               	bcf	5,6
+  2878  01FD  20A1               	fcall	_DelayUs
+  2879  01FE  3001               	movlw	1
+  2880                           
+  2881                           ;TCQ-V21.C: 333: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2882  01FF  1705               	bsf	5,6
+  2883  0200  20A1               	fcall	_DelayUs
+  2884  0201  3001               	movlw	1
+  2885  0202  1587               	bsf	7,3
+  2886  0203  1305               	bcf	5,6
+  2887  0204  20A1               	fcall	_DelayUs
+  2888  0205  3001               	movlw	1
+  2889                           
+  2890                           ;TCQ-V21.C: 334: PA6=1;DelayUs(1);PC3=0;PA6=0;DelayUs(1);
+  2891  0206  1705               	bsf	5,6
+  2892  0207  20A1               	fcall	_DelayUs
+  2893  0208  3001               	movlw	1
+  2894  0209  1187               	bcf	7,3
+  2895  020A  1305               	bcf	5,6
+  2896  020B  20A1               	fcall	_DelayUs
+  2897  020C  3001               	movlw	1
+  2898                           
+  2899                           ;TCQ-V21.C: 335: PA6=1;DelayUs(1);PC3=0;PA6=0;DelayUs(1);
+  2900  020D  1705               	bsf	5,6
+  2901  020E  20A1               	fcall	_DelayUs
+  2902  020F  3001               	movlw	1
+  2903  0210  1187               	bcf	7,3
+  2904  0211  1305               	bcf	5,6
+  2905  0212  20A1               	fcall	_DelayUs
+  2906  0213  3001               	movlw	1
+  2907                           
+  2908                           ;TCQ-V21.C: 336: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2909  0214  1705               	bsf	5,6
+  2910  0215  20A1               	fcall	_DelayUs
+  2911  0216  3001               	movlw	1
+  2912  0217  1587               	bsf	7,3
+  2913  0218  1305               	bcf	5,6
+  2914  0219  20A1               	fcall	_DelayUs
+  2915  021A  3001               	movlw	1
+  2916                           
+  2917                           ;TCQ-V21.C: 337: PA6=1;DelayUs(1);PC3=0;PA6=0;DelayUs(1);
+  2918  021B  1705               	bsf	5,6
+  2919  021C  20A1               	fcall	_DelayUs
+  2920  021D  3001               	movlw	1
+  2921  021E  1187               	bcf	7,3
+  2922  021F  1305               	bcf	5,6
+  2923  0220  20A1               	fcall	_DelayUs
+  2924  0221  3001               	movlw	1
+  2925                           
+  2926                           ;TCQ-V21.C: 338: PA6=1;DelayUs(1);PC3=1;PA6=0;DelayUs(1);
+  2927  0222  1705               	bsf	5,6
+  2928  0223  20A1               	fcall	_DelayUs
+  2929  0224  3001               	movlw	1
+  2930  0225  1587               	bsf	7,3
+  2931  0226  1305               	bcf	5,6
+  2932  0227  20A1               	fcall	_DelayUs
+  2933  0228  3001               	movlw	1
+  2934                           
+  2935                           ;TCQ-V21.C: 339: PA6=1;DelayUs(1);PA6=0;DelayUs(1);
+  2936  0229  1705               	bsf	5,6
+  2937  022A  20A1               	fcall	_DelayUs
+  2938  022B  3001               	movlw	1
+  2939  022C  1305               	bcf	5,6
+  2940  022D  20A1               	fcall	_DelayUs
+  2941  022E  3001               	movlw	1
+  2942                           
+  2943                           ;TCQ-V21.C: 340: for(i=0;i<8;i++)
+  2944  022F  01F5               	clrf	Con_CS1237@i
+  2945  0230  1705               	bsf	5,6
+  2946  0231                     L10:	
+  2947  0231  20A1               	fcall	_DelayUs
+  2948                           
+  2949                           ;TCQ-V21.C: 343: if(dat&0x80)
+  2950  0232  1FF4               	btfss	Con_CS1237@dat,7
+  2951  0233  2A36               	goto	l1213
+  2952                           
+  2953                           ;TCQ-V21.C: 344: PC3=1;
+  2954  0234  1587               	bsf	7,3
+  2955  0235  2A37               	goto	l1214
+  2956  0236                     l1213:	
+  2957                           
+  2958                           ;TCQ-V21.C: 345: else
+  2959                           ;TCQ-V21.C: 346: PC3=0;
+  2960  0236  1187               	bcf	7,3
+  2961  0237                     l1214:	
+  2962  0237  3001               	movlw	1
+  2963                           
+  2964                           ;TCQ-V21.C: 348: dat <<= 1;
+  2965  0238  1003               	clrc
+  2966  0239  0DF4               	rlf	Con_CS1237@dat,f
+  2967                           
+  2968                           ;TCQ-V21.C: 349: PA6=0;DelayUs(1);
+  2969  023A  1305               	bcf	5,6
+  2970  023B  20A1               	fcall	_DelayUs
+  2971  023C  3008               	movlw	8
+  2972  023D  0AF5               	incf	Con_CS1237@i,f
+  2973  023E  0275               	subwf	Con_CS1237@i,w
+  2974  023F  3001               	movlw	1
+  2975                           
+  2976                           ;TCQ-V21.C: 350: }
+  2977                           ;TCQ-V21.C: 351: PA6=1;DelayUs(1);PA6=0;DelayUs(1);
+  2978  0240  1705               	bsf	5,6
+  2979  0241  1C03               	skipc
+  2980  0242  2A31               	goto	L10
+  2981  0243  20A1               	fcall	_DelayUs
+  2982  0244  3001               	movlw	1
+  2983  0245  1305               	bcf	5,6
+  2984  0246  28A1               	ljmp	_DelayUs
+  2985  0247                     __end_of_Con_CS1237:	
+  2986                           
+  2987                           	psect	text322
+  2988  0114                     __ptext322:	
+  2989 ;; =============== function _Con_CS1237 ends ============
+  2990                           
+  2991                           
+  2992 ;; *************** function _read_ad *****************
+  2993 ;; Defined at:
+  2994 ;;		line 263 in file "TCQ-V21.C"
+  2995 ;; Parameters:    Size  Location     Type
+  2996 ;;  ch              1    wreg     unsigned char 
+  2997 ;; Auto vars:     Size  Location     Type
+  2998 ;;  ch              1    4[COMMON] unsigned char 
+  2999 ;;  ad_sum          2    5[COMMON] unsigned int 
+  3000 ;;  i               1    7[COMMON] unsigned char 
+  3001 ;; Return value:  Size  Location     Type
+  3002 ;;                  1    wreg      unsigned char 
+  3003 ;; Registers used:
+  3004 ;;		wreg, status,2, status,0, btemp+1, pclath, cstack
+  3005 ;; Tracked objects:
+  3006 ;;		On entry : 60/0
+  3007 ;;		On exit  : 60/0
+  3008 ;;		Unchanged: FFF9F/0
+  3009 ;; Data sizes:     COMMON   BANK0   BANK1
+  3010 ;;      Params:         0       0       0
+  3011 ;;      Locals:         4       0       0
+  3012 ;;      Temps:          2       0       0
+  3013 ;;      Totals:         6       0       0
+  3014 ;;Total ram usage:        6 bytes
+  3015 ;; Hardware stack levels used:    1
+  3016 ;; Hardware stack levels required when called:    1
+  3017 ;; This function calls:
+  3018 ;;		_DelayUs
+  3019 ;; This function is called by:
+  3020 ;;		_main
+  3021 ;; This function uses a non-reentrant model
+  3022 ;;
+  3023  0114                     _read_ad:	
+  3024                           
+  3025                           ; Regs used in _read_ad: [wreg+status,2+status,0+btemp+1+pclath+cstack]
+  3026                           ;read_ad@ch stored from wreg
+  3027  0114  00F4               	movwf	read_ad@ch
+  3028                           
+  3029                           ;TCQ-V21.C: 264: unsigned char i;
+  3030                           ;TCQ-V21.C: 265: unsigned int ad_sum=0;
+  3031  0115  01F5               	clrf	read_ad@ad_sum
+  3032  0116  01F6               	clrf	read_ad@ad_sum+1
+  3033                           
+  3034                           ;TCQ-V21.C: 269: ADCON0 = ch;
+  3035  0117  009F               	movwf	31	;volatile
+  3036                           
+  3037                           ;TCQ-V21.C: 271: DelayUs(100);
+  3038  0118  3064               	movlw	100
+  3039  0119  20A1               	fcall	_DelayUs
+  3040  011A  3064               	movlw	100
+  3041                           
+  3042                           ;TCQ-V21.C: 272: GO_DONE = 1;
+  3043  011B  149F               	bsf	31,1
+  3044                           
+  3045                           ;TCQ-V21.C: 273: DelayUs(100);
+  3046  011C  20A1               	fcall	_DelayUs
+  3047                           
+  3048                           ;TCQ-V21.C: 275: for(i=0;i<16;i++)
+  3049  011D  01F7               	clrf	read_ad@i
+  3050  011E                     l1196:	
+  3051                           
+  3052                           ;TCQ-V21.C: 276: {
+  3053                           ;TCQ-V21.C: 277: GO_DONE = 1;
+  3054  011E  1283               	bcf	3,5	;RP0=0, select bank0
+  3055  011F  149F               	bsf	31,1
+  3056  0120                     l1198:	
+  3057                           ;TCQ-V21.C: 278: while( GO_DONE==1 );
+  3058                           
+  3059  0120  189F               	btfsc	31,1
+  3060  0121  2920               	goto	l1198
+  3061                           
+  3062                           ;TCQ-V21.C: 280: ad_sum+= ADRESH<<8;
+  3063  0122  081E               	movf	30,w	;volatile
+  3064  0123  00F2               	movwf	??_read_ad
+  3065  0124  01F3               	clrf	??_read_ad+1
+  3066  0125  00F3               	movwf	??_read_ad+1
+  3067  0126  01F2               	clrf	??_read_ad
+  3068  0127  0872               	movf	??_read_ad,w
+  3069  0128  07F5               	addwf	read_ad@ad_sum,f
+  3070  0129  1803               	skipnc
+  3071  012A  0AF6               	incf	read_ad@ad_sum+1,f
+  3072  012B  0873               	movf	??_read_ad+1,w
+  3073  012C  07F6               	addwf	read_ad@ad_sum+1,f
+  3074                           
+  3075                           ;TCQ-V21.C: 281: ad_sum+= ADRESL;
+  3076  012D  1683               	bsf	3,5	;RP0=1, select bank1
+  3077  012E  081E               	movf	30,w	;volatile
+  3078  012F  07F5               	addwf	read_ad@ad_sum,f
+  3079  0130  1803               	skipnc
+  3080  0131  0AF6               	incf	read_ad@ad_sum+1,f
+  3081                           
+  3082                           ;TCQ-V21.C: 282: DelayUs(20);
+  3083  0132  3014               	movlw	20
+  3084  0133  20A1               	fcall	_DelayUs
+  3085  0134  3010               	movlw	16
+  3086  0135  0AF7               	incf	read_ad@i,f
+  3087  0136  0277               	subwf	read_ad@i,w
+  3088  0137  1C03               	skipc
+  3089  0138  291E               	goto	l1196
+  3090                           
+  3091                           ;TCQ-V21.C: 283: }
+  3092                           ;TCQ-V21.C: 285: ad_sum>>=6;
+  3093  0139  3006               	movlw	6
+  3094  013A                     u1035:	
+  3095  013A  1003               	clrc
+  3096  013B  0CF6               	rrf	read_ad@ad_sum+1,f
+  3097  013C  0CF5               	rrf	read_ad@ad_sum,f
+  3098  013D  3EFF               	addlw	-1
+  3099  013E  1D03               	skipz
+  3100  013F  293A               	goto	u1035
+  3101                           
+  3102                           ;TCQ-V21.C: 286: i=ad_sum;
+  3103  0140  0875               	movf	read_ad@ad_sum,w
+  3104  0141  00F7               	movwf	read_ad@i
+  3105                           
+  3106                           ;TCQ-V21.C: 288: ADCON0 = 0B10111001;
+  3107  0142  30B9               	movlw	185
+  3108  0143  1283               	bcf	3,5	;RP0=0, select bank0
+  3109  0144  009F               	movwf	31	;volatile
+  3110                           
+  3111                           ;TCQ-V21.C: 289: DelayUs(50);
+  3112  0145  3032               	movlw	50
+  3113  0146  20A1               	fcall	_DelayUs
+  3114                           
+  3115                           ;TCQ-V21.C: 291: return i;
+  3116  0147  0877               	movf	read_ad@i,w
+  3117  0148  0008               	return
+  3118  0149                     __end_of_read_ad:	
+  3119                           
+  3120                           	psect	text323
+  3121  00F9                     __ptext323:	
+  3122 ;; =============== function _read_ad ends ============
+  3123                           
+  3124                           
+  3125 ;; *************** function _send_data *****************
+  3126 ;; Defined at:
+  3127 ;;		line 196 in file "TCQ-V21.C"
+  3128 ;; Parameters:    Size  Location     Type
+  3129 ;;  d               1    wreg     unsigned char 
+  3130 ;; Auto vars:     Size  Location     Type
+  3131 ;;  d               1    2[COMMON] unsigned char 
+  3132 ;;  i               1    3[COMMON] unsigned char 
+  3133 ;; Return value:  Size  Location     Type
+  3134 ;;		None               void
+  3135 ;; Registers used:
+  3136 ;;		wreg, status,2, status,0, pclath, cstack
+  3137 ;; Tracked objects:
+  3138 ;;		On entry : 40/0
+  3139 ;;		On exit  : 60/20
+  3140 ;;		Unchanged: FFF9F/0
+  3141 ;; Data sizes:     COMMON   BANK0   BANK1
+  3142 ;;      Params:         0       0       0
+  3143 ;;      Locals:         2       0       0
+  3144 ;;      Temps:          0       0       0
+  3145 ;;      Totals:         2       0       0
+  3146 ;;Total ram usage:        2 bytes
+  3147 ;; Hardware stack levels used:    1
+  3148 ;; Hardware stack levels required when called:    1
+  3149 ;; This function calls:
+  3150 ;;		_DelayUs
+  3151 ;; This function is called by:
+  3152 ;;		_main
+  3153 ;; This function uses a non-reentrant model
+  3154 ;;
+  3155  00F9                     _send_data:	
+  3156                           
+  3157                           ; Regs used in _send_data: [wreg+status,2+status,0+pclath+cstack]
+  3158                           ;send_data@d stored from wreg
+  3159  00F9  00F2               	movwf	send_data@d
+  3160  00FA  3011               	movlw	17
+  3161                           
+  3162                           ;TCQ-V21.C: 197: unsigned char i;
+  3163                           ;TCQ-V21.C: 199: TRISA0=0;
+  3164  00FB  1683               	bsf	3,5	;RP0=1, select bank1
+  3165  00FC  1005               	bcf	5,0
+  3166                           
+  3167                           ;TCQ-V21.C: 200: PA0=0;
+  3168  00FD  1283               	bcf	3,5	;RP0=0, select bank0
+  3169  00FE  1005               	bcf	5,0
+  3170                           
+  3171                           ;TCQ-V21.C: 201: DelayUs(17);
+  3172  00FF  20A1               	fcall	_DelayUs
+  3173                           
+  3174                           ;TCQ-V21.C: 202: for(i=0;i<8;i++)
+  3175  0100  01F3               	clrf	send_data@i
+  3176  0101                     l1189:	
+  3177                           
+  3178                           ;TCQ-V21.C: 203: {
+  3179                           ;TCQ-V21.C: 204: if((d&0x01)==0)
+  3180  0101  1872               	btfsc	send_data@d,0
+  3181  0102  2905               	goto	l1191
+  3182                           
+  3183                           ;TCQ-V21.C: 205: {
+  3184                           ;TCQ-V21.C: 207: PA0=0;
+  3185  0103  1005               	bcf	5,0
+  3186                           
+  3187                           ;TCQ-V21.C: 208: }
+  3188  0104  2906               	goto	l3184
+  3189  0105                     l1191:	
+  3190                           
+  3191                           ;TCQ-V21.C: 209: else
+  3192                           ;TCQ-V21.C: 210: {
+  3193                           ;TCQ-V21.C: 212: PA0=1;
+  3194  0105  1405               	bsf	5,0
+  3195  0106                     l3184:	
+  3196                           
+  3197                           ;TCQ-V21.C: 213: }
+  3198                           ;TCQ-V21.C: 214: DelayUs(17);
+  3199  0106  3011               	movlw	17
+  3200  0107  20A1               	fcall	_DelayUs
+  3201  0108  3008               	movlw	8
+  3202                           
+  3203                           ;TCQ-V21.C: 217: d>>=1;
+  3204  0109  1003               	clrc
+  3205  010A  0CF2               	rrf	send_data@d,f
+  3206  010B  0AF3               	incf	send_data@i,f
+  3207  010C  0273               	subwf	send_data@i,w
+  3208  010D  1C03               	skipc
+  3209  010E  2901               	goto	l1189
+  3210  010F  3032               	movlw	50
+  3211                           
+  3212                           ;TCQ-V21.C: 218: }
+  3213                           ;TCQ-V21.C: 220: PA0=1;
+  3214  0110  1405               	bsf	5,0
+  3215                           
+  3216                           ;TCQ-V21.C: 221: TRISA0=1;
+  3217  0111  1683               	bsf	3,5	;RP0=1, select bank1
+  3218  0112  1405               	bsf	5,0
+  3219                           
+  3220                           ;TCQ-V21.C: 222: DelayUs(50);
+  3221  0113  28A1               	ljmp	_DelayUs
+  3222  0114                     __end_of_send_data:	
+  3223                           
+  3224                           	psect	text324
+  3225  00D1                     __ptext324:	
+  3226 ;; =============== function _send_data ends ============
+  3227                           
+  3228                           
+  3229 ;; *************** function _delay_sub *****************
+  3230 ;; Defined at:
+  3231 ;;		line 137 in file "TCQ-V21.C"
+  3232 ;; Parameters:    Size  Location     Type
+  3233 ;;  n               1    wreg     unsigned char 
+  3234 ;; Auto vars:     Size  Location     Type
+  3235 ;;  n               1    2[COMMON] unsigned char 
+  3236 ;;  i               1    3[COMMON] unsigned char 
+  3237 ;; Return value:  Size  Location     Type
+  3238 ;;		None               void
+  3239 ;; Registers used:
+  3240 ;;		wreg, status,2, status,0, pclath, cstack
+  3241 ;; Tracked objects:
+  3242 ;;		On entry : 60/0
+  3243 ;;		On exit  : 0/0
+  3244 ;;		Unchanged: FFE00/0
+  3245 ;; Data sizes:     COMMON   BANK0   BANK1
+  3246 ;;      Params:         0       0       0
+  3247 ;;      Locals:         2       0       0
+  3248 ;;      Temps:          0       0       0
+  3249 ;;      Totals:         2       0       0
+  3250 ;;Total ram usage:        2 bytes
+  3251 ;; Hardware stack levels used:    1
+  3252 ;; Hardware stack levels required when called:    1
+  3253 ;; This function calls:
+  3254 ;;		_DelayUs
+  3255 ;; This function is called by:
+  3256 ;;		_CS1237_Power_Down
+  3257 ;;		_main
+  3258 ;; This function uses a non-reentrant model
+  3259 ;;
+  3260  00D1                     _delay_sub:	
+  3261                           
+  3262                           ; Regs used in _delay_sub: [wreg+status,2+status,0+pclath+cstack]
+  3263                           ;delay_sub@n stored from wreg
+  3264  00D1  00F2               	movwf	delay_sub@n
+  3265                           
+  3266                           ;TCQ-V21.C: 138: unsigned char i;
+  3267                           ;TCQ-V21.C: 140: for(;n>0;n--)
+  3268  00D2  08F2               	movf	delay_sub@n,f
+  3269  00D3  1903               	btfsc	3,2
+  3270  00D4  0008               	return
+  3271  00D5                     l3158:	
+  3272                           
+  3273                           ;TCQ-V21.C: 141: {
+  3274                           ;TCQ-V21.C: 142: for(i=0;i<250;i++)DelayUs(228);
+  3275  00D5  01F3               	clrf	delay_sub@i
+  3276  00D6                     l3164:	
+  3277  00D6  30E4               	movlw	228
+  3278  00D7  20A1               	fcall	_DelayUs
+  3279  00D8  30FA               	movlw	250
+  3280  00D9  0AF3               	incf	delay_sub@i,f
+  3281  00DA  0273               	subwf	delay_sub@i,w
+  3282  00DB  1C03               	skipc
+  3283  00DC  28D6               	goto	l3164
+  3284  00DD  0064               	clrwdt	;#
+  3285  00DE  0BF2               	decfsz	delay_sub@n,f
+  3286  00DF  28D5               	goto	l3158
+  3287  00E0  0008               	return
+  3288  00E1                     __end_of_delay_sub:	
+  3289                           
+  3290                           	psect	text325
+  3291  0185                     __ptext325:	
+  3292 ;; =============== function _delay_sub ends ============
+  3293                           
+  3294                           
+  3295 ;; *************** function ___lldiv *****************
+  3296 ;; Defined at:
+  3297 ;;		line 5 in file "C:\Program Files (x86)\HI-TECH Software\PICC\9.83\sources\lldiv.c"
+  3298 ;; Parameters:    Size  Location     Type
+  3299 ;;  divisor         4    0[COMMON] unsigned long 
+  3300 ;;  dividend        4    4[COMMON] unsigned long 
+  3301 ;; Auto vars:     Size  Location     Type
+  3302 ;;  quotient        4    8[COMMON] unsigned long 
+  3303 ;;  counter         1   12[COMMON] unsigned char 
+  3304 ;; Return value:  Size  Location     Type
+  3305 ;;                  4    0[COMMON] unsigned long 
+  3306 ;; Registers used:
+  3307 ;;		wreg, status,2, status,0
+  3308 ;; Tracked objects:
+  3309 ;;		On entry : 60/0
+  3310 ;;		On exit  : 60/0
+  3311 ;;		Unchanged: FFF9F/0
+  3312 ;; Data sizes:     COMMON   BANK0   BANK1
+  3313 ;;      Params:         8       0       0
+  3314 ;;      Locals:         5       0       0
+  3315 ;;      Temps:          0       0       0
+  3316 ;;      Totals:        13       0       0
+  3317 ;;Total ram usage:       13 bytes
+  3318 ;; Hardware stack levels used:    1
+  3319 ;; This function calls:
+  3320 ;;		Nothing
+  3321 ;; This function is called by:
+  3322 ;;		_main
+  3323 ;; This function uses a non-reentrant model
+  3324 ;;
+  3325  0185                     ___lldiv:	
+  3326                           
+  3327                           ; Regs used in ___lldiv: [wreg+status,2+status,0]
+  3328  0185  01F8               	clrf	___lldiv@quotient
+  3329  0186  01F9               	clrf	___lldiv@quotient+1
+  3330  0187  01FA               	clrf	___lldiv@quotient+2
+  3331  0188  01FB               	clrf	___lldiv@quotient+3
+  3332  0189  0873               	movf	___lldiv@divisor+3,w
+  3333  018A  0472               	iorwf	___lldiv@divisor+2,w
+  3334  018B  0471               	iorwf	___lldiv@divisor+1,w
+  3335  018C  0470               	iorwf	___lldiv@divisor,w
+  3336  018D  1903               	skipnz
+  3337  018E  29C4               	goto	l3150
+  3338  018F  01FC               	clrf	___lldiv@counter
+  3339  0190                     L11:	
+  3340  0190  0AFC               	incf	___lldiv@counter,f
+  3341  0191  1BF3               	btfsc	___lldiv@divisor+3,7
+  3342  0192  2999               	goto	l3138
+  3343  0193  1003               	clrc
+  3344  0194  0DF0               	rlf	___lldiv@divisor,f
+  3345  0195  0DF1               	rlf	___lldiv@divisor+1,f
+  3346  0196  0DF2               	rlf	___lldiv@divisor+2,f
+  3347  0197  0DF3               	rlf	___lldiv@divisor+3,f
+  3348  0198  2990               	goto	L11
+  3349  0199                     l3138:	
+  3350  0199  1003               	clrc
+  3351  019A  0DF8               	rlf	___lldiv@quotient,f
+  3352  019B  0DF9               	rlf	___lldiv@quotient+1,f
+  3353  019C  0DFA               	rlf	___lldiv@quotient+2,f
+  3354  019D  0DFB               	rlf	___lldiv@quotient+3,f
+  3355  019E  0873               	movf	___lldiv@divisor+3,w
+  3356  019F  0277               	subwf	___lldiv@dividend+3,w
+  3357  01A0  1D03               	skipz
+  3358  01A1  29AC               	goto	u945
+  3359  01A2  0872               	movf	___lldiv@divisor+2,w
+  3360  01A3  0276               	subwf	___lldiv@dividend+2,w
+  3361  01A4  1D03               	skipz
+  3362  01A5  29AC               	goto	u945
+  3363  01A6  0871               	movf	___lldiv@divisor+1,w
+  3364  01A7  0275               	subwf	___lldiv@dividend+1,w
+  3365  01A8  1D03               	skipz
+  3366  01A9  29AC               	goto	u945
+  3367  01AA  0870               	movf	___lldiv@divisor,w
+  3368  01AB  0274               	subwf	___lldiv@dividend,w
+  3369  01AC                     u945:	
+  3370  01AC  1C03               	skipc
+  3371  01AD  29BE               	goto	L12
+  3372  01AE  0870               	movf	___lldiv@divisor,w
+  3373  01AF  02F4               	subwf	___lldiv@dividend,f
+  3374  01B0  0871               	movf	___lldiv@divisor+1,w
+  3375  01B1  1C03               	skipc
+  3376  01B2  0F71               	incfsz	___lldiv@divisor+1,w
+  3377  01B3  02F5               	subwf	___lldiv@dividend+1,f
+  3378  01B4  0872               	movf	___lldiv@divisor+2,w
+  3379  01B5  1C03               	skipc
+  3380  01B6  0F72               	incfsz	___lldiv@divisor+2,w
+  3381  01B7  02F6               	subwf	___lldiv@dividend+2,f
+  3382  01B8  0873               	movf	___lldiv@divisor+3,w
+  3383  01B9  1C03               	skipc
+  3384  01BA  0F73               	incfsz	___lldiv@divisor+3,w
+  3385  01BB  02F7               	subwf	___lldiv@dividend+3,f
+  3386  01BC  1478               	bsf	___lldiv@quotient,0
+  3387  01BD  1003               	clrc
+  3388  01BE                     L12:	
+  3389  01BE  0CF3               	rrf	___lldiv@divisor+3,f
+  3390  01BF  0CF2               	rrf	___lldiv@divisor+2,f
+  3391  01C0  0CF1               	rrf	___lldiv@divisor+1,f
+  3392  01C1  0CF0               	rrf	___lldiv@divisor,f
+  3393  01C2  0BFC               	decfsz	___lldiv@counter,f
+  3394  01C3  2999               	goto	l3138
+  3395  01C4                     l3150:	
+  3396  01C4  087B               	movf	___lldiv@quotient+3,w
+  3397  01C5  00F3               	movwf	?___lldiv+3
+  3398  01C6  087A               	movf	___lldiv@quotient+2,w
+  3399  01C7  00F2               	movwf	?___lldiv+2
+  3400  01C8  0879               	movf	___lldiv@quotient+1,w
+  3401  01C9  00F1               	movwf	?___lldiv+1
+  3402  01CA  0878               	movf	___lldiv@quotient,w
+  3403  01CB  00F0               	movwf	?___lldiv
+  3404  01CC  0008               	return
+  3405  01CD                     __end_of___lldiv:	
+  3406                           
+  3407                           	psect	text326
+  3408  00B1                     __ptext326:	
+  3409 ;; =============== function ___lldiv ends ============
+  3410                           
+  3411                           
+  3412 ;; *************** function _ADC_INITIAL *****************
+  3413 ;; Defined at:
+  3414 ;;		line 174 in file "TCQ-V21.C"
+  3415 ;; Parameters:    Size  Location     Type
+  3416 ;;		None
+  3417 ;; Auto vars:     Size  Location     Type
+  3418 ;;		None
+  3419 ;; Return value:  Size  Location     Type
+  3420 ;;		None               void
+  3421 ;; Registers used:
+  3422 ;;		wreg
+  3423 ;; Tracked objects:
+  3424 ;;		On entry : 17F/0
+  3425 ;;		On exit  : 17F/20
+  3426 ;;		Unchanged: FFE80/0
+  3427 ;; Data sizes:     COMMON   BANK0   BANK1
+  3428 ;;      Params:         0       0       0
+  3429 ;;      Locals:         0       0       0
+  3430 ;;      Temps:          0       0       0
+  3431 ;;      Totals:         0       0       0
+  3432 ;;Total ram usage:        0 bytes
+  3433 ;; Hardware stack levels used:    1
+  3434 ;; This function calls:
+  3435 ;;		Nothing
+  3436 ;; This function is called by:
+  3437 ;;		_main
+  3438 ;; This function uses a non-reentrant model
+  3439 ;;
+  3440  00B1                     _ADC_INITIAL:	
+  3441                           
+  3442                           ;TCQ-V21.C: 179: ADCON1 = 0B00100000;
+  3443                           
+  3444                           ; Regs used in _ADC_INITIAL: [wreg]
+  3445  00B1  3020               	movlw	32
+  3446  00B2  1683               	bsf	3,5	;RP0=1, select bank1
+  3447  00B3  009F               	movwf	31	;volatile
+  3448                           
+  3449                           ;TCQ-V21.C: 184: ADCON0 = 0B10111001;
+  3450  00B4  30B9               	movlw	185
+  3451  00B5  1283               	bcf	3,5	;RP0=0, select bank0
+  3452  00B6  009F               	movwf	31	;volatile
+  3453                           
+  3454                           ;TCQ-V21.C: 192: ANSEL = 0B00100001;
+  3455  00B7  3021               	movlw	33
+  3456  00B8  1683               	bsf	3,5	;RP0=1, select bank1
+  3457  00B9  0091               	movwf	17	;volatile
+  3458  00BA  0008               	return
+  3459  00BB                     __end_of_ADC_INITIAL:	
+  3460                           
+  3461                           	psect	text327
+  3462  00A1                     __ptext327:	
+  3463 ;; =============== function _ADC_INITIAL ends ============
+  3464                           
+  3465                           
+  3466 ;; *************** function _DelayUs *****************
+  3467 ;; Defined at:
+  3468 ;;		line 128 in file "TCQ-V21.C"
+  3469 ;; Parameters:    Size  Location     Type
+  3470 ;;  Time            1    wreg     unsigned char 
+  3471 ;; Auto vars:     Size  Location     Type
+  3472 ;;  Time            1    0[COMMON] unsigned char 
+  3473 ;;  a               1    1[COMMON] unsigned char 
+  3474 ;; Return value:  Size  Location     Type
+  3475 ;;		None               void
+  3476 ;; Registers used:
+  3477 ;;		wreg, status,2, status,0
+  3478 ;; Tracked objects:
+  3479 ;;		On entry : 0/0
+  3480 ;;		On exit  : 0/0
+  3481 ;;		Unchanged: FFFFF/0
+  3482 ;; Data sizes:     COMMON   BANK0   BANK1
+  3483 ;;      Params:         0       0       0
+  3484 ;;      Locals:         2       0       0
+  3485 ;;      Temps:          0       0       0
+  3486 ;;      Totals:         2       0       0
+  3487 ;;Total ram usage:        2 bytes
+  3488 ;; Hardware stack levels used:    1
+  3489 ;; This function calls:
+  3490 ;;		Nothing
+  3491 ;; This function is called by:
+  3492 ;;		_delay_sub
+  3493 ;;		_send_data
+  3494 ;;		_read_ad
+  3495 ;;		_Con_CS1237
+  3496 ;;		_Read_CON
+  3497 ;;		_Read_CS1237
+  3498 ;;		_main
+  3499 ;; This function uses a non-reentrant model
+  3500 ;;
+  3501  00A1                     _DelayUs:	
+  3502                           
+  3503                           ; Regs used in _DelayUs: [wreg+status,2+status,0]
+  3504                           ;DelayUs@Time stored from wreg
+  3505  00A1  00F0               	movwf	DelayUs@Time
+  3506                           
+  3507                           ;TCQ-V21.C: 129: unsigned char a;
+  3508                           ;TCQ-V21.C: 130: for(a=0;a<Time;a++)
+  3509  00A2  01F1               	clrf	DelayUs@a
+  3510  00A3                     l3124:	
+  3511  00A3  0870               	movf	DelayUs@Time,w
+  3512  00A4  0271               	subwf	DelayUs@a,w
+  3513  00A5  1803               	btfsc	3,0
+  3514  00A6  0008               	return
+  3515                           
+  3516                           ;TCQ-V21.C: 131: {
+  3517  00A7  0AF1               	incf	DelayUs@a,f
+  3518  00A8  28A3               	goto	l3124
+  3519  00A9                     __end_of_DelayUs:	
+  3520                           
+  3521                           	psect	text328
+  3522  00E1                     __ptext328:	
+  3523 ;; =============== function _DelayUs ends ============
+  3524                           
+  3525                           
+  3526 ;; *************** function _POWER_INITIAL *****************
+  3527 ;; Defined at:
+  3528 ;;		line 96 in file "TCQ-V21.C"
+  3529 ;; Parameters:    Size  Location     Type
+  3530 ;;		None
+  3531 ;; Auto vars:     Size  Location     Type
+  3532 ;;		None
+  3533 ;; Return value:  Size  Location     Type
+  3534 ;;		None               void
+  3535 ;; Registers used:
+  3536 ;;		wreg, status,2
+  3537 ;; Tracked objects:
+  3538 ;;		On entry : 17F/0
+  3539 ;;		On exit  : 17F/0
+  3540 ;;		Unchanged: FFE80/0
+  3541 ;; Data sizes:     COMMON   BANK0   BANK1
+  3542 ;;      Params:         0       0       0
+  3543 ;;      Locals:         0       0       0
+  3544 ;;      Temps:          0       0       0
+  3545 ;;      Totals:         0       0       0
+  3546 ;;Total ram usage:        0 bytes
+  3547 ;; Hardware stack levels used:    1
+  3548 ;; This function calls:
+  3549 ;;		Nothing
+  3550 ;; This function is called by:
+  3551 ;;		_main
+  3552 ;; This function uses a non-reentrant model
+  3553 ;;
+  3554  00E1                     _POWER_INITIAL:	
+  3555                           
+  3556                           ;TCQ-V21.C: 97: OSCCON = 0B01110001;
+  3557                           
+  3558                           ; Regs used in _POWER_INITIAL: [wreg+status,2]
+  3559  00E1  3071               	movlw	113
+  3560  00E2  1683               	bsf	3,5	;RP0=1, select bank1
+  3561  00E3  008F               	movwf	15	;volatile
+  3562                           
+  3563                           ;TCQ-V21.C: 104: INTCON = 0;
+  3564  00E4  018B               	clrf	11	;volatile
+  3565                           
+  3566                           ;TCQ-V21.C: 105: PORTA = 0B00000010;
+  3567  00E5  3002               	movlw	2
+  3568  00E6  1283               	bcf	3,5	;RP0=0, select bank0
+  3569  00E7  0085               	movwf	5	;volatile
+  3570                           
+  3571                           ;TCQ-V21.C: 106: TRISA = 0B10111101;
+  3572  00E8  30BD               	movlw	189
+  3573  00E9  1683               	bsf	3,5	;RP0=1, select bank1
+  3574  00EA  0085               	movwf	5	;volatile
+  3575                           
+  3576                           ;TCQ-V21.C: 107: PORTC = 0B00000000;
+  3577  00EB  1283               	bcf	3,5	;RP0=0, select bank0
+  3578  00EC  0187               	clrf	7	;volatile
+  3579                           
+  3580                           ;TCQ-V21.C: 108: TRISC = 0B11101100;
+  3581  00ED  30EC               	movlw	236
+  3582  00EE  1683               	bsf	3,5	;RP0=1, select bank1
+  3583  00EF  0087               	movwf	7	;volatile
+  3584                           
+  3585                           ;TCQ-V21.C: 110: WPUA = 0;
+  3586  00F0  0195               	clrf	21	;volatile
+  3587                           
+  3588                           ;TCQ-V21.C: 111: WPUC = 0;
+  3589  00F1  0188               	clrf	8	;volatile
+  3590                           
+  3591                           ;TCQ-V21.C: 112: OPTION = 0B00001101;
+  3592  00F2  300D               	movlw	13
+  3593  00F3  0081               	movwf	1	;volatile
+  3594                           
+  3595                           ;TCQ-V21.C: 114: MSCKCON = 0B00000000;
+  3596  00F4  1283               	bcf	3,5	;RP0=0, select bank0
+  3597  00F5  019B               	clrf	27	;volatile
+  3598                           
+  3599                           ;TCQ-V21.C: 117: CMCON0 = 0B00000111;
+  3600  00F6  3007               	movlw	7
+  3601  00F7  0099               	movwf	25	;volatile
+  3602  00F8  0008               	return
+  3603  00F9                     __end_of_POWER_INITIAL:	
+  3604                           
+  3605                           	psect	text329
+  3606  0000                     __ptext329:	
+  3607 ;; =============== function _POWER_INITIAL ends ============
+  3608                           
+  3609  007E                     btemp	set	126	;btemp
+  3610  007E                     wtemp0	set	126
+
+
+HI-TECH Software PICC Macro Assembler V9.83 build 10920 
+Symbol Table                                                                                   Tue Sep 22 19:59:11 2020
+
+                         _i 0060                           _k 0056                           _t 005A  
+      __size_of_ADC_INITIAL 000A                          _TH 0044                          fsr 0004  
+                       _PA0 0028                         _PA1 0029                         _PC0 0038  
+                       _PA6 002E                         _PC3 003B                         _SR0 0CF6  
+                       _SR1 0CF7   __end_of_CS1237_Power_Down 00C5                         u945 01AC  
+                       _SUM 0030                         indf 0000                 _start_times 0058  
+                      l1201 0000                        l1204 01D4                        l1213 0236  
+                      l1214 0237                        l1208 01E8                        l1232 0000  
+                      l1217 024C                        l1313 0000                        l1234 0157  
+                      l1243 02DA                        l1252 0366                        l1173 0000  
+                      l1237 0171                        l1229 0150                        l1253 037F  
+                      l1245 02DB                        l3110 0000                        l3102 0000  
+                      l1167 0000                        l1191 0105                        l1183 0000  
+                      l1255 03CC                        l3112 0000                        l3104 0000  
+                      l3120 0000                        l3200 0000                        l1193 0000  
+                      l3114 0000                        l3106 0000                        l1186 0000  
+                      l3130 0000                        l3210 0000                        l3202 0000  
+                      l1266 04D0                        l3116 0000                        l3108 0000  
+                      l3124 00A3                        l3140 0000                        l3220 0000  
+                      l3212 0000                        l1196 011E                        l3204 0000  
+                      l3300 0000                        l1284 0704                        l2165 0000  
+                      l1189 0101                        l1269 057B                        l3118 0000  
+                      l3126 0000                        l3150 01C4                        l3222 0000  
+                      l3214 0000                        l1198 0120                        l3310 0000  
+                      l3302 0000                        l3230 0000                        l3144 0000  
+                      l3128 0000                        l3224 0000                        l3216 0000  
+                      l3320 0000                        l3312 0000                        l3304 0000  
+                      l3240 0000                        l3232 0000                        l3400 0000  
+                      l3138 0199                        l3170 0000                        l3154 0000  
+                      l3226 0000                        l3322 0000                        l3250 0000  
+                      l3234 0000                        l3410 0000                        l3402 0000  
+                      l3330 0000                        l3148 0000                        l3164 00D6  
+                      l3172 0000                        l3324 0000                        l3316 0000  
+                      l3260 0000                        l3252 0000                        l3244 0000  
+                      l3420 0000                        l3404 0000                        l3340 0000  
+                      l3166 0000                        l3158 00D5                        l3190 0000  
+                      l3174 0000                        l3318 0000                        l3270 0000  
+                      l3262 0000                        l3254 0000                        l3238 0000  
+                      l3430 0000                        l3406 0000                        l3350 0000  
+                      l3334 0000                        l3326 0000                        l3168 0000  
+                      l3192 0000                        l3184 0106                        l3176 0000  
+                      l3280 0000                        l3272 0000                        l3264 0000  
+                      l3256 0000                        l3424 0000                        l3416 0000  
+                      l3408 0000                        l3360 0000                        l3352 0000  
+                      l3344 0262                        l3336 0000                        l3328 0000  
+                      l3600 0000                        l3512 0000                        l3504 02D8  
+                      l3186 0000                        l3194 0000                        l3290 0000  
+                      l3282 0000                        l3274 0000                        l3266 0000  
+                      l3258 0000                        l3426 0000                        l3418 0000  
+                      l3370 0000                        l3362 0000                        l3354 0000  
+                      l3450 0000                        l3434 0000                        l3610 0449  
+                      l3602 0000                        l3522 0000                        l3514 0000  
+                      l3188 0000                        l3196 0000                        l3292 0000  
+                      l3284 0000                        l3276 0000                        l3268 0000  
+                      l3428 0000                        l3380 0000                        l3372 0000  
+                      l3364 0000                        l3356 0000                        l3460 0000  
+                      l3452 0000                        l3444 0156                        l3620 0000  
+                      l3540 032D                        l3532 031D                        l3524 0000  
+                      l3516 0000                        l3198 0000                        l3294 0000  
+                      l3286 0000                        l3278 0000                        l3390 0000  
+                      l3382 0000                        l3374 0000                        l3366 0000  
+                      l3358 0000                        l3462 0000                        l3454 0000  
+                      l3702 06B5                        l3630 0000                        l3614 0000  
+                      l3622 047D                        l3550 0000                        l3542 0000  
+                      l3534 0000                        l3526 0000                        l3518 0000  
+                      l3296 0000                        l3288 0000                        l3392 0000  
+                      l3384 0000                        l3376 0000                        l3368 0000  
+                      l3472 0000                        l3464 0000                        l3800 0000  
+                      l3712 06CD                        l3640 0000                        l3632 0000  
+                      l3544 0000                        l3536 0000                        l3298 0000  
+                      l3394 0000                        l3386 0000                        l3378 0000  
+                      l3474 0000                        l3458 0168                        l3490 0000  
+                      l3802 0000                        l3730 070D                        l3706 06C7  
+                      l3642 0000                        l3626 0499                        l3570 03F7  
+                      l3562 0000                        l3546 0000                        l3538 0000  
+                      l3396 0000                        l3388 0000                        l3476 0000  
+                      l3484 0000                        l3804 0000                        l3740 0733  
+                      l3644 0000                        l3580 0000                        l3572 0000  
+                      l3556 0000                        l3548 0000                        l3492 0000  
+                      l3398 0000                        l3478 0000                        l3486 0000  
+                      l3670 05EB                        l3726 0708                        l3654 05B3  
+                      l3646 0000                        l3582 0000                        l3574 0000  
+                      l3558 0000                        l3494 0000                        l3488 0000  
+                      l3752 0000                        l3736 0000                        l3744 0775  
+                      l3760 07B3                        l3728 0000                        l3672 0000  
+                      l3592 0000                        l3584 0000                        l3576 0000  
+                      l3568 0000                        l3496 0000                        l3770 0000  
+                      l3754 0000                        l3746 0000                        l3658 05C5  
+                      l3674 0604                        l3762 07B8                        l3586 0000  
+                      l3578 0000                        l3498 0000                        l3756 0000  
+                      l3748 077D                        l3676 0000                        l3596 0435  
+                      l3588 0413                        l3790 0000                        l3782 0000  
+                      l3774 0000                        l3758 0000                        l3694 0689  
+                      l3686 062B                        l3678 060A                        l3792 0000  
+                      l3784 0000                        l3768 07C0                        l3696 0000  
+                      l3794 0000                        l3786 0000                        l3778 0000  
+                      l3698 06A3                        l3796 0000                        l3788 0000  
+                      l3798 0000                        u1035 013A                        u1315 042E  
+                      u1235 035B                        u1405 04C8                        u1245 0374  
+                      u1415 04F8                        u1425 0522                        u1265 03AE  
+                      u1275 03C2                        u1445 0573                        u1365 045F  
+                      u1455 0589                        u1375 0472                        u1295 03EF  
+                      u1625 06B1                        u1545 061C                        u1465 05AF  
+                      u1635 06C3                        u1475 05C1                        u1725 0729  
+                      u1575 064D                        u1495 05D8                        u1745 075D  
+                      u1585 0673                        u1755 07A6                        u1595 0683  
+                      _SUM0 0034                        _SUM1 0038                        _SUM3 0040  
+                      _STRA 0CE8                        _STRB 0CE9                        _STRC 0CEA  
+                      _STRD 0CEB                        _WREN 0C62                        _WPUA 0095  
+                      _WPUC 0088                  _Con_CS1237 01CD               ??_Read_CS1237 0076  
+                      _main 02C5                        btemp 007E               Con_CS1237@dat 0074  
+                      start 0000             __end_of_DelayUs 00A9                       _C1SEN 0CF5  
+                     _C2REN 0CF4                 Read_CON@dat 0074                       ?_main 0070  
+                     _EEPGD 0C67                       _ANSEL 0091             __end_of___lldiv 01CD  
+                     _LIGHT 0054                       _SUM10 003C                       _PORTA 0005  
+                     _PORTC 0007                       _SRCON 019E                       _PULSR 0CF2  
+                     _PULSS 0CF3                       _TRISA 0085                       _TRISC 0087  
+           __end_of_read_ad 0149                       _times 005C                       status 0003  
+                     wtemp0 007E         __end_of_Read_CS1237 0185                __end_of_main 0800  
+          __end_of_Read_CON 02C5                Read_CS1237@i 007A                      ??_main 0064  
+__size_of_CS1237_Power_Down 000A                      _ADCON0 001F                      _ADCON1 009F  
+                    _ADRESH 001E                      _ADRESL 009E                      _CMCON0 0019  
+                    _INTCON 000B                   ??_DelayUs 0070                 ?_Con_CS1237 0070  
+                    _OSCCON 008F                      _PIR_AD 002C                      _OPTION 0081  
+                    _TRISA0 0428                      _TRISC3 043B                   ??___lldiv 0078  
+                    _times1 004C                      _times2 0050                      clrloop 00AA  
+                 ??_read_ad 0072       __end_of_POWER_INITIAL 00F9                 _Read_CS1237 0149  
+         _check_light_times 005F              __pcstackCOMMON 0070                __pidataBANK0 0000  
+        __size_of_delay_sub 0010         __size_of_Con_CS1237 007A                  __pbssBANK0 0020  
+                 ?_Read_CON 0070               ??_ADC_INITIAL 0070                  __pmaintext 02C5  
+        __size_of_send_data 001B                     _GO_DONE 00F9                     _MSCKCON 001B  
+                   _PSTRCON 019D                     _STRSYNC 0CEC                     _DelayUs 00A1  
+                ??_Read_CON 0072           __end_of_delay_sub 00E1             Read_CON@count_i 0072  
+                   ___lldiv 0185         __end_of_ADC_INITIAL 00BB                     _read_ad 0114  
+      end_of_initialization 00CF                  delay_sub@i 0073                  delay_sub@n 0072  
+         __end_of_send_data 0114                ??_Con_CS1237 0072                   _MAX_DELTA 0024  
+           ___lldiv@divisor 0070             ___lldiv@counter 007C                   _NOISE_PIR 0028  
+        __end_of_Con_CS1237 0247                ?_Read_CS1237 0072                   Read_CON@i 0075  
+        _calc_average_times 005E                  _stop_times 0063                 _ADC_INITIAL 00B1  
+       start_initialization 00C5              Read_CS1237@dat 0076           __size_of_Read_CON 007E  
+               __pdataBANK0 0068      __size_of_POWER_INITIAL 0018                 __pbssCOMMON 007D  
+             __pcstackBANK0 0064                    ?_DelayUs 0070                   _delay_sub 00D1  
+                 __ptext320 0247                   __ptext321 01CD                   __ptext322 0114  
+                 __ptext323 00F9                   __ptext324 00D1                   __ptext325 0185  
+                 __ptext326 00B1                   __ptext318 00BB                   __ptext327 00A1  
+                 __ptext319 0149                   __ptext328 00E1                   __ptext329 0000  
+                  ?___lldiv 0070                  send_data@d 0072                  send_data@i 0073  
+                  ?_read_ad 0070                   _light_ad0 0062                    _ALL_SUM1 0020  
+             _POWER_INITIAL 00E1                    DelayUs@a 0071                   _send_data 00F9  
+      __size_of_Read_CS1237 003C                  ?_delay_sub 0070                    _SUM0_num 0068  
+                  _SUM1_num 0069                 Con_CS1237@i 0075                    _Read_CON 0247  
+            ?_POWER_INITIAL 0070                 DelayUs@Time 0070            __size_of_DelayUs 0008  
+                ?_send_data 0070                ?_ADC_INITIAL 0070                   read_ad@ch 0074  
+          __size_of___lldiv 0048            __size_of_read_ad 0035                    _average1 0048  
+                  _light_ad 0061               read_ad@ad_sum 0075               __size_of_main 053B  
+                  clear_ram 00A9                 ??_delay_sub 0072                    read_ad@i 0077  
+           ??_POWER_INITIAL 0070            ___lldiv@dividend 0074                 ??_send_data 0072  
+          ___lldiv@quotient 0078           Con_CS1237@count_i 0072           _CS1237_Power_Down 00BB  
+              _SUM1_counter 007D          ?_CS1237_Power_Down 0070         ??_CS1237_Power_Down 0074  

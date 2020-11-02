@@ -1,0 +1,13 @@
+_DelayUs: CODE, 161 0 8
+_send_data: CODE, 249 0 27
+_main: CODE, 709 0 1339
+_CS1237_Power_Down: CODE, 187 0 10
+_Read_CS1237: CODE, 329 0 60
+_POWER_INITIAL: CODE, 225 0 24
+___lldiv: CODE, 389 0 72
+_Read_CON: CODE, 583 0 126
+_read_ad: CODE, 276 0 53
+_Con_CS1237: CODE, 461 0 122
+_ADC_INITIAL: CODE, 177 0 10
+_delay_sub: CODE, 209 0 16
+Total: 1867
